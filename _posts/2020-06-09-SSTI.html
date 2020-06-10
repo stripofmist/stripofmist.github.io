@@ -1,0 +1,141 @@
+---
+layout: post
+author: Strip of Mist
+title: Server Side Template Injection
+---
+<p>Server-Side Template Injection (SSTI) is a channeling vulnerability on templating engines that commonly occurs when a user has the ability to write part of the template. To understand SSTI, it is critical to understand Templating Engines.</p>
+<h2 id="What is a Templating Engine">What is a Templating Engine</h2>
+<p>In plain language, a templating engine is a piece of software that inserts the contents of variables into a template to output a formatted string. The template itself is a string that includes a little bit of custom syntax to tell the template where to insert variables and which variables to insert. Templating engines are extremely common in web servers. It looks something like this:</p>
+<pre><code>{% raw %}template = &quot;Hello, {{user}}!&quot;
+output = templating_engine.render(template, {&quot;user&quot;: &quot;Reinhardt&quot;})
+
+print(output){% endraw %}</code></pre>
+<p>Which would print <code>Hello, Reinhardt!</code>.</p>
+<p>Templating engines are not some kind of markup language, they are written in a proper programming language (commonly Python, Java, PHP, Ruby, Go, Rust, Node). The templating engine runs on the web server and often has access to the programming language runtime. So if an attacker takes control of a templating engine, they may have the full power of a turing-complete programming language on the web server.</p>
+<p>Under our current description, <code>printf</code> is a templating engine, as is any other string formatting feature built into a programming language. Why not just use the tools already built into the language instead of a third party library?</p>
+<p>The answer is that most templating engines have more advanced features that allow you to do a lot of things that are harder to do with <code>printf</code>. In my opinion, the feature that makes them so prevalent is the ability to extend, inherit, or otherwise mix and match templates together in a more succinct way than it would be possible with the underlying programming language itself. For a website, you could have a navigation bar template that every other page on the site includes.</p>
+<p>There are other features that templating engines include that make them powerful, both for the web developers and attackers. These include creating loops, conditional statements, and sometimes even the ability to <code>eval()</code> or <code>exec1()</code> arbitrary code in the underlying programming languages. Here's a generic example of loops and execution:</p>
+<!-- <pre><code>{% raw %}template = &quot;{% for user in users %} Hello, {{user}}, your name is {% exec2(len(user)) %} character(s) long!\n {% endfor %}&quot; 
+data = {&quot;users&quot;: [&quot;Reinhardt, &quot;Sigma&quot;, &quot;Winston&quot;]}
+output = templating_engine.render(template, data)
+
+print(output){% endraw %}</code></pre> -->
+<p>Which would print something like:</p>
+<pre><code>Hello, Reinhardt, your name is 9 character(s) long!
+Hello, Sigma, your name is 5 character(s) long!
+Hello, Winston, your name is 7 character(s) long!</code></pre>
+<h2 id="SSTI Description">SSTI Description</h2>
+<p>Server-Side Template Injection (SSTI) is a channeling vulnerability on templating engines that commonly occurs when a user has the ability to write part of the template. If the user can write the template, there are lots of things that can go wrong:</p>
+<ol>
+<li>They can print any variable that is in scope</li>
+<li>They can call <code>eval()</code> or <code>exec3()</code> to run arbitrary code</li>
+<li>They can use some other programming language feature or template engine feature to run arbitrary code</li>
+</ol>
+<p>We'll get to these in a minute, but let's first make this more concrete by showing what it might look like.</p>
+<p>In this example, we have a website with lots of users. Each user can create whatever they want for their profile page. The user input (given via a POST variable) is used as the template for this rendering engine.</p>
+<pre><code>template = get_profile_POST_argument()
+output = template_engine.render(template, {&quot;user&quot;, username})
+
+send_response(output)</code></pre>
+<p>In the normal case, a user like Reinhardt would submit <code>{% raw %}profile="Hi, I'm {{user}} and this is my page"{% endraw %}</code>, but an attacker might submit the following:</p>
+<pre><code>{% raw %}profile=&quot;Hi, I&#39;m {{user}} and here is every file on the webserver&#39;s filesystem: {% import os; os.system(&#39;find /&#39;) %}&quot;{% endraw %}</code></pre>
+<p>or</p>
+<pre><code>{% raw %}profile=&quot;Hi, I&#39;m not gonna tell you who I am, but here are the webserver&#39;s environment variables: {% import os; print(os.environ) %}&quot;{% endraw %}</code></pre>
+<p>Now everytime someone looks at the attacker's profile, the templating engine will render that template, including running the code between the <code>{% raw %}{% %}{% endraw %}</code> delimiters.</p>
+<p>So allowing the user to completely specify the template is dangerous, but so is letting the user specify any part of it. Here is an example where the templating engine is used improperly and the user is allowed to specify the template instead of just the data:</p>
+<pre><code>{% raw %}user = get_user_POST_argument()
+template = &quot;Hello, &quot; + user + &quot;, the time is {{t}}.&quot;
+output = templating_engine.render(template, {&quot;t&quot;: time()})
+
+print(output){% endraw %}</code></pre>
+<p>Here the developer doesn't make use of the templating engine and instead just concatenates <code>user</code> into the template string. Either of the two above tricks would work on this one.</p>
+<p>Another kind of odd way to do things is to use the templating engine's delimiters, but still concatenate strings.</p>
+<pre><code>{% raw %}somevar = get_somevar_POST_argument()
+template = &quot;The contents of the requested variable is {{&quot; + somevar + &quot;}}.&quot;
+output = templating_engine.render(template, {&quot;var1&quot;: &quot;value1&quot;, &quot;var2&quot;: &quot;value2&quot;})
+
+print(output){% endraw %}</code></pre>
+<p>Normally a user would enter <code>somevar=var1</code> which would print <code>The contents of the requested variable is value1</code>. However, an attacker can break out of the delimiters and make their own:</p>
+<p><code>{% raw %}somevar=var1}} {% import os; os.system('rm /home/user/importantDocument.txt') %} {{var2{% endraw %}</code></p>
+<p>Which would make the template:</p>
+<p><code>{% raw %}"The contents of the requested variable is {{"var1}} {% import os; os.system('rm /home/user/importantDocument.txt') %} {{var2}}."{% endraw %}</code></p>
+<h2 id="Why Is It a Vulnerability?">Why Is It a Vulnerability?</h2>
+<p>Why does this happen? Templates have two parts to them, control characters and data characters. In the template <code>{% raw %}"Hi, I'm {{user}}"{% endraw %}</code>, the "Hi, I'm " is data that will simply be passed into the output stream. The <code>{% raw %} {{ {% endraw %}</code> are control characters that instruct the template engine to interpret the next bit as a variable name to be substituted with its value. The <code>{% raw %}user{% endraw %}</code> bit controls which variable will be substituted, and the <code>{% raw %} }} {% endraw %}</code> tells the templating engine to stop looking for variables and instead go back to processing any following input as data. Both the control and data parts coexist in one channel, the template. This creates what is called a channeling vulnerability. If attackers can specify even part of the template channel, they can insert their own control characters. The more powerful the templating engine and the control characters are, the more powerful the attack.</p>
+<p>Many common vulnerability classes can be described as channeling vulnerabilities. Heap overflows are one obvious example. The metadata for allocated and free chunks of heap memory sit right next to the actual data of the heap variables. If an attacker can break out of their small specified portion of memory allocated as data, they can overwrite the control portion of memory to force arbitrary reads and writes. In stack overflows, the return address is the control portion and the rest of the stack variables and buffers are data. <code>printf</code> and format string vulnerabilities also are channeling vulnerabilities. If an attacker can write the format string, they can read and write parts of memory that are normally inaccessible.</p>
+<p>One solution for channeling vulnerabilities is to never give the user the capability to control any part of the channel. Don't let the user control the format string in any <code>printf</code>, don't let the user control any part of the template. In most cases, the easiest way to not have SSTI is to not let the user ever control any part of the template. The original example of <code>{% raw %}template = "Hi, I'm {{ user }} and this is my page."{% endraw %}</code> isn't inherently vulnerable to SSTI.</p>
+<h2 id="How to spot it, How to automate finding it">How to spot it, How to automate finding it</h2>
+<p>This vulnerability occurs while rendering something to the client. So for this to even be an attempt at SSTI, you have to be able to:</p>
+<ol>
+<li>Enter something in a POST or URL variable</li>
+<li>It has to be displayed back to you in your browser either as
+<ul>
+<li>The exact text you entered</li>
+<li>Some derivative of what you entered (you might enter the name of a variable and the contents of that variable are displayed back to you).</li>
+</ul></li>
+</ol>
+<p>So to find it, look for a place where some input variable is echo'ed back to you in some way.</p>
+<h2 id="High Level Things to Try">High Level Things to Try</h2>
+<ol>
+<li>Identify any inputs that are echo'ed back to the user as potential SSTI targets</li>
+<li>Try common templating engine syntax to identify places where the user can control part of the template</li>
+<li>Try to identify the Templating Engine by using:
+<ul>
+<li>Several different templating engine syntax features</li>
+<li>Mathematical operations inside those templating engine syntax control characters</li>
+<li>Intentionally bad syntax to try to force error messages that could reveal the engine</li>
+</ul></li>
+<li>Learn everything you can about that Templating Engine and its features
+<ul>
+<li>Security warnings in the documentation</li>
+<li>Publicly available exploits or CVEs</li>
+<li>Risky or powerful features</li>
+</ul></li>
+<li>Enumerate all the variables you have access to.
+<ul>
+<li>Blind guessing</li>
+<li>Word lists</li>
+<li>Variables that you know are used in other parts of the site</li>
+<li>Globals, locals, environment, template engine variables, underlying programming language variables</li>
+</ul></li>
+<li>Use any Templating Engine function or underlying programming language feature to break out and do stuff</li>
+<li>Try to set up a matching or similar environment with debug and see what you have access to</li>
+</ol>
+<h2 id="List of Templating Engines">List of Templating Engines</h2>
+<p>A good <a href="https://en.wikipedia.org/wiki/Comparison_of_web_template_engines">list</a> can be found on wikipedia. I'll also copy it here as of 2020. Templating engines use different syntax, but there are many similarities because they all must deal with the web and so they mostly avoid tags and syntax that has special meaning in HTML, CSS, and Javascript.</p>
+<ul>
+<li>Apache Velocity</li>
+<li>ASP.NET (Microsoft)</li>
+<li>ASP.NET (Mono)</li>
+<li>Laravel Blade</li>
+<li>CheetahTemplate</li>
+<li>CodeCharge Studio</li>
+<li>ColdFusion</li>
+<li>CTPP</li>
+<li>Django</li>
+<li>ERB</li>
+<li>eRuby</li>
+<li>FreeMarker</li>
+<li>Genshi (templating language)</li>
+<li>Go templates</li>
+<li>Haml</li>
+<li>Hamlets</li>
+<li>JavaServer Pages</li>
+<li>Jinja</li>
+<li>Jinja2</li>
+<li>Tera</li>
+<li>Kid</li>
+<li>Liquid</li>
+<li>Lucee</li>
+<li>Mustache</li>
+<li>Open Power Template</li>
+<li>PHP</li>
+<li>Razor</li>
+<li>Smarty</li>
+<li>Template Attribute Language</li>
+<li>Template Toolkit</li>
+<li>Thymeleaf</li>
+<li>Twig</li>
+<li>vlibTemplate</li>
+<li>web2py</li>
+<li>WebMacro</li>
+</ul>
