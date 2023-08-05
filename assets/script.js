@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
     label.textContent = "All/None"
     checkboxContainer.appendChild(label);
     checkboxContainer.appendChild(document.createElement("br"));
+    checkboxContainer.appendChild(document.createElement("br"));
 
     patterns.forEach((pattern, index) => {
         const checkbox = document.createElement("input");
@@ -72,6 +73,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 event.preventDefault();
             }
         });
+        checkbox.addEventListener("change", updateSelectAllCheckbox);
         checkboxContainer.appendChild(checkbox);
 
         const label = document.createElement("label");
@@ -94,6 +96,21 @@ window.addEventListener("keydown", function(event) {
         event.preventDefault();
     }
 });
+
+function updateSelectAllCheckbox() {
+    const allnone = document.getElementById("allNone");
+    const patternBoxes = document.getElementsByClassName("patternBox");
+    const pbArray = Array.from(patternBoxes);
+
+    const allChecked = pbArray.every((checkbox) => checkbox.checked);
+    const noneChecked = pbArray.every((checkbox) => !checkbox.checked);
+
+    if (allChecked) {
+        allnone.checked = true;
+    } else if (noneChecked) {
+        allnone.checked = false;
+    }
+}
 
 function toggleAllCheckboxes() {
     const allnone = document.getElementById("allNone");
