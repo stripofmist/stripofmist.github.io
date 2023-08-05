@@ -47,12 +47,26 @@ document.addEventListener("keydown", function (event) {
 document.addEventListener("DOMContentLoaded", function() {
     const checkboxContainer = document.getElementById("checkboxContainer");
 
+    // Add an All/None Checkbox
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = "allNone";
+    checkbox.checked = true;
+    checkbox.addEventListener("change", toggleAllCheckboxes);
+    checkboxContainer.appendChild(checkbox);
+    const label = document.createElement("label");
+    label.htmlFor = "allNone";
+    label.textContent = "All/None"
+    checkboxContainer.appendChild(label);
+    checkboxContainer.appendChild(document.createElement("br"));
+
     patterns.forEach((pattern, index) => {
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.id = `checkbox${index}`;
         checkbox.value = index;
         checkbox.checked = true;
+        checkbox.classList.add("patternBox");
         checkbox.addEventListener("keydown", function(event) {
             if (event.keyCode === 32 || event.key === " ") {
                 event.preventDefault();
@@ -81,9 +95,18 @@ window.addEventListener("keydown", function(event) {
     }
 });
 
+function toggleAllCheckboxes() {
+    const allnone = document.getElementById("allNone");
+    const isChecked = allnone.checked;
+
+    const patternBoxes = document.getElementsByClassName("patternBox");
+    for (let i = 0; i < patternBoxes.length; i++) {
+        patternBoxes[i].checked = isChecked;
+    }
+}
 
 function generateRandomPattern() {
-    const checkboxes = document.querySelectorAll("input[type='checkbox']:checked");
+    const checkboxes = document.querySelectorAll(".patternBox:checked");
     const availablePatterns = Array.from(checkboxes).map(checkbox => parseInt(checkbox.value));
 
     if (availablePatterns.length === 0) {
