@@ -28,26 +28,21 @@ const patterns = [
 
 
 
-const centeredImage = document.getElementById("centeredImage");
 
 document.addEventListener("keydown", function (event) {
   if (event.key === " " || event.key == "r") {
     if (event.key === "r") {
-        count = 0;
+        resetCount();
     } else if (event.key === " ") {
-        var newcount = count + 1;
+        incrementCount();
     }
     const randomIndex = generateRandomPattern();
     if (randomIndex === -1) {
         return;
     }
-    count = newcount;
-    centeredImage.src = "images/" + patterns[randomIndex]["images"]["gifs"][0];
-    centeredText.textContent = patterns[randomIndex]["name"];
-    counter.textContent = count;
+    loadImageByIndex(randomIndex);
   } 
 });
-
 
 document.addEventListener("DOMContentLoaded", function() {
     const checkboxContainer = document.getElementById("checkboxContainer");
@@ -94,3 +89,21 @@ function generateRandomPattern() {
     return randomNumber;
 }
 
+function resetCount() {
+    const counter = document.getElementById("counter");
+    count = 0;
+    counter.textContent = count;
+}
+
+function incrementCount() {
+    const counter = document.getElementById("counter");
+    count = count + 1;
+    counter.textContent = count;
+}
+
+function loadImageByIndex(i) {
+    const centeredImage = document.getElementById("centeredImage");
+    const centeredText = document.getElementById("centeredText");
+    centeredImage.src = "images/" + patterns[i]["images"]["gifs"][0];
+    centeredText.textContent = patterns[i]["name"];
+}
