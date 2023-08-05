@@ -45,3 +45,7 @@ td:nth-child(2) {
 td:last-child {
     width: 25%;
 }
+
+input[type="checkbox"]:focus {
+    outline: none;
+}

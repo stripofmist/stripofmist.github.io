@@ -58,6 +58,11 @@ document.addEventListener("DOMContentLoaded", function() {
         checkbox.id = `checkbox${index}`;
         checkbox.value = index;
         checkbox.checked = true;
+        checkbox.addEventListener("keydown", function(event) {
+            if (event.keyCode === 32 || event.key === " ") {
+                event.preventDefault();
+            }
+        });
         checkboxContainer.appendChild(checkbox);
 
         const label = document.createElement("label");
@@ -68,6 +73,12 @@ document.addEventListener("DOMContentLoaded", function() {
         // Add a line break after each checkbox and label
         checkboxContainer.appendChild(document.createElement("br"));
     });
+});
+
+window.addEventListener("keydown", function(event) {
+    if (event.keyCode === 32 || event.key === " ") {
+        event.preventDefault();
+    }
 });
 
 
