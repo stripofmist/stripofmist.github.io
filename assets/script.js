@@ -63,7 +63,7 @@ document.addEventListener("keydown", function (event) {
         count = count + 1;
     }
     const randomIndex = Math.floor(Math.random() * images.length);
-    centeredImage.src = "gifs/" + images[randomIndex];
+    centeredImage.src = "images/" + images[randomIndex];
     centeredText.textContent = names[randomIndex];
     counter.textContent = count;
   } 
