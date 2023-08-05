@@ -63,6 +63,11 @@ document.addEventListener("DOMContentLoaded", function() {
         const label = document.createElement("label");
         label.htmlFor = `checkbox${index}`;
         label.textContent = pattern["name"];
+        label.addEventListener("click", function(event) {
+            event.preventDefault();
+            resetCount();
+            loadImageByIndex(index);
+        });
         checkboxContainer.appendChild(label);
 
         // Add a line break after each checkbox and label
