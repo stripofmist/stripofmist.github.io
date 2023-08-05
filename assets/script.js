@@ -45,7 +45,26 @@ document.addEventListener("keydown", function (event) {
 });
 
 
+document.addEventListener("DOMContentLoaded", function() {
+    const checkboxContainer = document.getElementById("checkboxContainer");
 
+    patterns.forEach((pattern, index) => {
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `checkbox${index}`;
+        checkbox.value = index;
+        checkbox.checked = true;
+        checkboxContainer.appendChild(checkbox);
+
+        const label = document.createElement("label");
+        label.htmlFor = `checkbox${index}`;
+        label.textContent = pattern["name"];
+        checkboxContainer.appendChild(label);
+
+        // Add a line break after each checkbox and label
+        checkboxContainer.appendChild(document.createElement("br"));
+    });
+});
 
 
 
