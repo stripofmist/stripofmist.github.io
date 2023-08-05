@@ -35,9 +35,13 @@ document.addEventListener("keydown", function (event) {
     if (event.key === "r") {
         count = 0;
     } else if (event.key === " ") {
-        count = count + 1;
+        var newcount = count + 1;
     }
-    const randomIndex = Math.floor(Math.random() * patterns.length);
+    const randomIndex = generateRandomPattern();
+    if (randomIndex === -1) {
+        return;
+    }
+    count = newcount;
     centeredImage.src = "images/" + patterns[randomIndex]["images"]["gifs"][0];
     centeredText.textContent = patterns[randomIndex]["name"];
     counter.textContent = count;
@@ -67,4 +71,15 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+function generateRandomPattern() {
+    const checkboxes = document.querySelectorAll("input[type='checkbox']:checked");
+    const availablePatterns = Array.from(checkboxes).map(checkbox => parseInt(checkbox.value));
+
+    if (availablePatterns.length === 0) {
+        return -1;
+    }
+
+    const randomNumber = availablePatterns[Math.floor(Math.random() * availablePatterns.length)];
+    return randomNumber;
+}
 
