@@ -1,56 +1,31 @@
 var count = 0;
 
-const images = [
-  "2b2b.gif",
-  "dtcannon.gif",
-  "imperialcross.gif",
-  "shachiku.gif",
-  "stmbcave.gif",
-  "tetris.gif",
-  "tsd.gif",
-  "tsttower.gif",
-  "5combo.gif",
-  "fractal.gif",
-  "kingcrimson.gif",
-  "shadowblade.gif",
-  "stsd.gif",
-  "trinity.gif",
-  "tsm.gif",
-  "uncutcopy.gif",
-  "cutcopy.gif",
-  "grimgrotto.gif",
-  "parapet.gif",
-  "shallowgrave.gif",
-  "szprop.gif",
-  "tripledouble.gif",
-  "tst.gif"
+const patterns = [
+  {"name": "2 B2Bs", "images": {"gifs": ["2b2b.gif"], "stills": ["2b2b.gif"]}},
+  {"name": "DT Cannon", "images": {"gifs": ["dtcannon.gif"], "stills": ["dtcannon.gif"]}},
+  {"name": "Imperial Cross", "images": {"gifs": ["imperialcross.gif"], "stills": ["imperialcross.gif"]}},
+  {"name": "Corporate Slave Train (Shachiku)", "images": {"gifs": ["shachiku.gif"], "stills": ["shachiku.gif"]}},
+  {"name": "STMB Cave", "images": {"gifs": ["stmbcave.gif"], "stills": ["stmbcave.gif"]}},
+  {"name": "Tetris", "images": {"gifs": ["tetris.gif"], "stills": ["tetris.gif"]}},
+  {"name": "TSpin Double (TSD)", "images": {"gifs": ["tsd.gif"], "stills": ["tsd.gif"]}},
+  {"name": "TSpin Triple Tower", "images": {"gifs": ["tsttower.gif"], "stills": ["tsttower.gif"]}},
+  {"name": "5-Combo", "images": {"gifs": ["5combo.gif"], "stills": ["5combo.gif"]}},
+  {"name": "Fractal", "images": {"gifs": ["fractal.gif"], "stills": ["fractal.gif"]}},
+  {"name": "King Crimson", "images": {"gifs": ["kingcrimson.gif"], "stills": ["kingcrimson.gif"]}},
+  {"name": "Shadow Blade", "images": {"gifs": ["shadowblade.gif"], "stills": ["shadowblade.gif"]}},
+  {"name": "STSD", "images": {"gifs": ["stsd.gif"], "stills": ["stsd.gif"]}},
+  {"name": "Trinity", "images": {"gifs": ["trinity.gif"], "stills": ["trinity.gif"]}},
+  {"name": "TSpin Mini", "images": {"gifs": ["tsm.gif"], "stills": ["tsm.gif"]}},
+  {"name": "Uncut Copy", "images": {"gifs": ["uncutcopy.gif"], "stills": ["uncutcopy.gif"]}},
+  {"name": "Cut Copy (Thousand Birds Grid)", "images": {"gifs": ["cutcopy.gif"], "stills": ["cutcopy.gif"]}},
+  {"name": "Grim Grotto", "images": {"gifs": ["grimgrotto.gif"], "stills": ["grimgrotto.gif"]}},
+  {"name": "Parapet", "images": {"gifs": ["parapet.gif"], "stills": ["parapet.gif"]}},
+  {"name": "Shallow Grave", "images": {"gifs": ["shallowgrave.gif"], "stills": ["shallowgrave.gif"]}},
+  {"name": "S/Z Prop", "images": {"gifs": ["szprop.gif"], "stills": ["szprop.gif"]}},
+  {"name": "Triple Double", "images": {"gifs": ["tripledouble.gif"], "stills": ["tripledouble.gif"]}},
+  {"name": "TSpin Triple (TST)", "images": {"gifs": ["tst.gif"], "stills": ["tst.gif"]}}
 ];
 
-const names = [
-  "2 B2Bs",
-  "DT Cannon",
-  "Imperial Cross",
-  "Corporate Slave Train (Shachiku)",
-  "STMB Cave",
-  "Tetris",
-  "TSpin Double (TSD)",
-  "TSpin Triple Tower",
-  "5-Combo",
-  "Fractal",
-  "King Crimson",
-  "Shadow Blade",
-  "STSD",
-  "Trinity",
-  "TSpin Mini",
-  "Uncut Copy",
-  "Cut Copy (Thousand Birds Grid)",
-  "Grim Grotto",
-  "Parapet",
-  "Shallow Grave",
-  "S/Z Prop",
-  "Triple Double",
-  "TSpin Triple (TST)"
-];
 
 
 const centeredImage = document.getElementById("centeredImage");
@@ -62,9 +37,9 @@ document.addEventListener("keydown", function (event) {
     } else if (event.key === " ") {
         count = count + 1;
     }
-    const randomIndex = Math.floor(Math.random() * images.length);
-    centeredImage.src = "images/" + images[randomIndex];
-    centeredText.textContent = names[randomIndex];
+    const randomIndex = Math.floor(Math.random() * patterns.length);
+    centeredImage.src = "images/" + patterns[randomIndex]["images"]["gifs"][0];
+    centeredText.textContent = patterns[randomIndex]["name"];
     counter.textContent = count;
   } 
 });
