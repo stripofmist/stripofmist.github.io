@@ -36,6 +36,10 @@ td:first-child {
     width: 25%;
 }
 
+td:nth-child(2) {
+    width: 50%;
+}
+
 td:last-child {
-    width: 75%;
+    width: 25%;
 }
