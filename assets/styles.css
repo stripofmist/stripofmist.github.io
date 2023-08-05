@@ -1,6 +1,8 @@
 body, html {
     height: 100%;
     margin: 0;
+    background-color: #444654;
+    color: #d1d5db;
 }
 
 .center {
@@ -28,7 +30,7 @@ table {
 
 th, td {
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 0px solid #ccc;
 }
 
 /* Define column widths */
