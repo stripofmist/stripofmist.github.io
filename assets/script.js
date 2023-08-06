@@ -45,6 +45,26 @@ function pressRestartButton() {
     loadImageByIndex(randomIndex);
 }
 
+tspinroulette.addEventListener("click", function(event) {
+    event.preventDefault();
+    pressRestartButton();
+});
+
+about.addEventListener("click", function(event) {
+    event.preventDefault();
+    overlay.style.display = "flex";
+});
+
+closeButton.addEventListener("click", () => {
+    overlay.style.display = "none";
+});
+
+document.addEventListener("click", (event) => {
+    if (event.target === overlay) {
+        overlay.style.display = "none";
+    }
+});
+
 document.addEventListener("keydown", function (event) {
     if (event.key === " ") {
         pressRandomButton();
