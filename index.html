@@ -7,7 +7,12 @@
     <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-<table>
+<table class="topLevelTable">
+        <colgroup class="topLevelColGroup">
+        <col>
+        <col>
+        <col>
+        </colgroup>
         <tr>
         <td>
             <div id="checkboxContainer">
@@ -18,6 +23,19 @@
             <p id="centeredText">TSpin Roulette</p>
             <img id="centeredImage" src="images/tsd.gif" alt="Centered Image">
             <p id="counter">0</p>
+            <table class="buttonTable">
+                <colgroup class="buttonTableColGroup">
+                <col>
+                <col>
+                </colgroup>
+                <tr>
+                    <td class="rbtd">
+                    <button id="randomButton">Random Pattern<br>( Space )</button>
+                    </td>
+                    <td class="rtd">
+                    <button id="restartButton">Restart<br>( r )</button>
+                    </td>
+                </tr>
         </td>
         <td>
         </td>

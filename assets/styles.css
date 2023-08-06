@@ -34,6 +34,24 @@ th, td {
     border: 0px solid #ccc;
 }
 
+.topLevelColGroup col:nth-child(1) {
+    width: 25%;
+}
+
+.topLevelColGroup col:nth-child(2) {
+    width: 50%;
+}
+.topLevelColGroup col:nth-child(3) {
+    width: 25%;
+}
+
+.buttonTableColGroup col:nth-child(1) {
+    width: 50%;
+}
+
+.buttonTableColGroup col:nth-child(2) {
+    width: 50%;
+}
 /* Define column widths */
 td:first-child {
     width: 25%;
@@ -51,6 +69,26 @@ input[type="checkbox"]:focus {
     outline: none;
 }
 
+button:focus {
+    outline: none;
+}
+
 label {
     cursor: pointer;
+}
+
+#randomButton {
+    width: 120px;
+}
+
+#restartButton {
+    width: 120px;
+}
+
+.rbtd {
+    text-align: right;
+}
+
+.rtd {
+    text-align: left;
 }

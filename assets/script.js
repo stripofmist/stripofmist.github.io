@@ -27,21 +27,30 @@ const patterns = [
 ];
 
 
-
-
-document.addEventListener("keydown", function (event) {
-  if (event.key === " " || event.key == "r") {
-    if (event.key === "r") {
-        resetCount();
-    } else if (event.key === " ") {
-        incrementCount();
-    }
+function pressRandomButton() {
+    incrementCount();
     const randomIndex = generateRandomPattern();
-    if (randomIndex === -1) {
+    if (randomIndex === -1){
         return;
     }
     loadImageByIndex(randomIndex);
-  } 
+}
+
+function pressRestartButton() {
+    resetCount();
+    const randomIndex = generateRandomPattern();
+    if (randomIndex === -1){
+        return;
+    }
+    loadImageByIndex(randomIndex);
+}
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === " ") {
+        pressRandomButton();
+    } else if (event.key === "r") {
+        pressRestartButton();
+    }
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -96,6 +105,9 @@ window.addEventListener("keydown", function(event) {
         event.preventDefault();
     }
 });
+
+randomButton.addEventListener("click", pressRandomButton);
+restartButton.addEventListener("click", pressRestartButton);
 
 function updateSelectAllCheckbox() {
     const allnone = document.getElementById("allNone");
