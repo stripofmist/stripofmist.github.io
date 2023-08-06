@@ -57,13 +57,23 @@ about.addEventListener("click", function(event) {
     overlay.style.display = "flex";
 });
 
+leaderboard.addEventListener("click", function(event) {
+    event.preventDefault();
+    leadOverlay.style.display="flex";
+});
+
+closeLeadButton.addEventListener("click", function(event) {
+    leadOverlay.style.display="none";
+});
+
 closeButton.addEventListener("click", () => {
     overlay.style.display = "none";
 });
 
 document.addEventListener("click", (event) => {
-    if (event.target === overlay) {
+    if (event.target === overlay || event.target === leadOverlay) {
         overlay.style.display = "none";
+        leadOverlay.style.display = "none";
     }
 });
 

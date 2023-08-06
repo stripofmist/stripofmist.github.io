@@ -12,6 +12,7 @@
 <ul>
     <li><a href="#" id=tspinroulette>TSpin Roulette</a></li>
     <li><a href="#" id="about">About</a></li>
+    <li><a href="#" id="leaderboard">Leaderboard</a></li>
 </ul>
 </nav>
 </header>
@@ -47,15 +48,16 @@
                 </tr>
             </table>
             <p id="byline">Created by StripOfMist<br>v0.2</p>
+            </div>
         </td>
         <td>
         </td>
         </tr>
-        </div>
+</table>
             <div id="overlay" class="overlay">
             <div class="message-box">
                 <span class="close" id="closeButton">&times;</span>
-                <div class="content">
+                <div class="overlayContent">
                 <h2>What Is This?</h2>
                 <p class="overlayText">TSpin Roulette generates a Tetris pattern or method randomly from the selected list. <br>It is intended as a companion learning tool or a training game.</p>
                 <h2>How Do I Play?</h2>
@@ -78,10 +80,29 @@
                     <li><a href="https://twitch.tv/stripofmist">Twitch</a></li>
                     <li>stripofmist at gmail</li>
                 </ul>
-                </div>
-            </div>
+                </div> <!-- content -->
+            </div> <!-- Message Box -->
+        </div> <!-- Overlay -->
+        <div class="overlay" id="leadOverlay">
+        <div class="message-box">
+            <span class="close" id="closeLeadButton">&times;</span>
+            <div class="overlayContent">
+            <h2>Leaderboard - Tetris99</h2>
+            <table id="leadTable">
+            <tr>
+                <td></td>
+                <td>ri</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>StripOfMist</td>
+                <td>11</td>
+            </tr>
+            </table>
         </div>
-
+        </div>
+        </div>
 </main>
     <script src="assets/script.js"></script>
 </body>

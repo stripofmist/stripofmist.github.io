@@ -4,6 +4,7 @@ body, html {
     background-color: #444654;
     color: #d1d5db;
     font-family: Arial, sans-serif;
+    counter-reset: rowNumber;
 }
 
 .center {
@@ -182,7 +183,16 @@ a:hover {
     text-decoration: underline;
 }
 
-.content {
+.overlayContent {
     max-height: 80vh; /* Adjust the maximum height to your preference */
     overflow-y: auto; /* Enable vertical scrolling for the content */
+}
+
+table#leadTable td {
+    border: 1px solid #ccc;
+}
+
+table#leadTable td:first-child::before {
+    content: counter(rowNumber);
+    counter-increment: rowNumber;
 }
