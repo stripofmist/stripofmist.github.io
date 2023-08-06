@@ -4,7 +4,7 @@ body, html {
     background-color: #444654;
     color: #d1d5db;
     font-family: Arial, sans-serif;
-    counter-reset: rowNumber;
+    counter-reset: rowNumber 0 mRowNumber 0;
 }
 
 .center {
@@ -195,4 +195,14 @@ table#leadTable td {
 table#leadTable td:first-child::before {
     content: counter(rowNumber);
     counter-increment: rowNumber;
+}
+
+
+table#leadMTable td {
+    border: 1px solid #ccc;
+}
+
+table#leadMTable td:first-child::before {
+    content: counter(mRowNumber);
+    counter-increment: mRowNumber;
 }
