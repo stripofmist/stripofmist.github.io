@@ -28,7 +28,9 @@ const patterns = [
 
 
 function pressRandomButton() {
-    incrementCount();
+    if (centeredText.textContent !== "TSpin Roulette") {
+        incrementCount();
+    }
     const randomIndex = generateRandomPattern();
     if (randomIndex === -1){
         return;

@@ -94,6 +94,7 @@ label {
 }
 
 #byline {
+    text-align: center;
     font-size: 12px;
 }
 
@@ -123,6 +124,10 @@ nav li a:hover {
     text-decoration: underline;
 }
 
+li {
+    color: #8b8b9d;
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -136,12 +141,21 @@ nav li a:hover {
 }
 
 .message-box {
-    background-color: #fff;
+    background-color: #444654;
     padding: 20px;
     border-radius: 10px;
     max-width: 80%;
     position: relative;
-    text-align: center;
+    text-align: left;
+}
+
+h2 {
+    font-weight: bold;
+}
+
+.overlayText {
+    font-size: 16px;
+    color: #8b8b9d;
 }
 
 .close {
@@ -150,4 +164,25 @@ nav li a:hover {
     right: 10px;
     font-size: 24px;
     cursor: pointer;
+}
+
+/* Unvisited link */
+a {
+    color: #8b8b9d; /* Change to the desired color for unvisited links */
+}
+
+/* Visited link */
+a:visited {
+    color: #8b8b9d /* Change to the desired color for visited links */
+}
+
+/* Hover state */
+a:hover {
+    color: #8b8b9d /* Change to the desired color for the link on hover */
+    text-decoration: underline;
+}
+
+.content {
+    max-height: 80vh; /* Adjust the maximum height to your preference */
+    overflow-y: auto; /* Enable vertical scrolling for the content */
 }
