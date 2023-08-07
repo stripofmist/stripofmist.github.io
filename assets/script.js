@@ -24,10 +24,13 @@ const patterns = [
   {"name": "S/Z Prop", "images": {"gifs": ["szprop.gif"], "stills": ["szprop.gif"]}},
   {"name": "Triple Double", "images": {"gifs": ["tripledouble.gif"], "stills": ["tripledouble.gif"]}},
   {"name": "TSpin Triple (TST)", "images": {"gifs": ["tst.gif"], "stills": ["tst.gif"]}},
-  {"name": "Clapperboard", "images": {"gifs": ["clapperboard.gif"], "stills": ["clapperboard.gif"]}},
   {"name": "Magic Key", "images": {"gifs": ["magickey.gif"], "stills": ["magickey.gif"]}},
   {"name": "Jigsaw", "images": {"gifs": ["jigsaw.gif"], "stills": ["jigsaw.gif"]}},
   {"name": "TSD Deny -> Tetris", "images": {"gifs": ["tsddenytetris.gif"], "stills": ["tsddenytetris.gif"]}},
+  {"name": "Clapperboard", "images": {"gifs": ["clapperboard.gif"], "stills": ["clapperboard.gif"]}},
+  {"name": "Clapperboard 2", "images": {"gifs": ["clapperboard2.gif"], "stills": ["clapperboard2.gif"]}},
+  {"name": "Clapperboard Counter", "images": {"gifs": ["clapperboardcounter.gif"], "stills": ["clapperboardcounter.gif"]}},
+  {"name": "Clapperboard Counter 2", "images": {"gifs": ["clapperboardcounter2.gif"], "stills": ["clapperboardcounter2.gif"]}},
 ];
 
 
