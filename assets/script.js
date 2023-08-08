@@ -31,6 +31,7 @@ const patterns = [
   {"name": "Clapperboard 2", "images": {"gifs": ["clapperboard2.gif"], "stills": ["clapperboard2.gif"]}, "type": "ispin"},
   {"name": "Clapperboard Counter", "images": {"gifs": ["clapperboardcounter.gif"], "stills": ["clapperboardcounter.gif"]}, "type": "ispin"},
   {"name": "Clapperboard Counter 2", "images": {"gifs": ["clapperboardcounter2.gif"], "stills": ["clapperboardcounter2.gif"]}, "type": "ispin"},
+  {"name": "S/Z Tuck", "images": {"gifs": ["sztuck.gif"], "stills": ["sztuck.gif"]}, "type": "sspin"},
 ];
 
 
@@ -137,9 +138,26 @@ function addISpin(pattern, index, iSpinContainer) {
 
 }
 
+function addSSpin(pattern, index, sSpinContainer) {
+
+    const label = document.createElement("label");
+    label.textContent = "* " + pattern["name"];
+    label.addEventListener("click", function(event) {
+        event.preventDefault();
+        resetCount();
+        loadImageByIndex(index);
+    });
+    sSpinContainer.appendChild(label);
+
+    // Add a line break after each checkbox and label
+    sSpinContainer.appendChild(document.createElement("br"));
+
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     const checkboxContainer = document.getElementById("checkboxContainer");
     const iSpinContainer = document.getElementById("iSpinContainer");
+    const sSpinContainer = document.getElementById("sSpinContainer");
 
     // Add an All/None Checkbox
     const checkbox = document.createElement("input");
@@ -160,6 +178,8 @@ document.addEventListener("DOMContentLoaded", function() {
             addPattern(pattern, index, checkboxContainer);
         } else if (pattern["type"] === "ispin") {
             addISpin(pattern, index, iSpinContainer);
+        } else if (pattern["type"] === "sspin") {
+            addSSpin(pattern, index, sSpinContainer);
         }
     });
 });
