@@ -1,36 +1,36 @@
 var count = 0;
 
 const patterns = [
-  {"name": "2 B2Bs", "images": {"gifs": ["2b2b.gif"], "stills": ["2b2b.gif"]}},
-  {"name": "DT Cannon", "images": {"gifs": ["dtcannon.gif"], "stills": ["dtcannon.gif"]}},
-  {"name": "Imperial Cross", "images": {"gifs": ["imperialcross.gif"], "stills": ["imperialcross.gif"]}},
-  {"name": "Corporate Slave Train (Shachiku)", "images": {"gifs": ["shachiku.gif"], "stills": ["shachiku.gif"]}},
-  {"name": "STMB Cave", "images": {"gifs": ["stmbcave.gif"], "stills": ["stmbcave.gif"]}},
-  {"name": "Tetris", "images": {"gifs": ["tetris.gif"], "stills": ["tetris.gif"]}},
-  {"name": "TSpin Double (TSD)", "images": {"gifs": ["tsd.gif"], "stills": ["tsd.gif"]}},
-  {"name": "TSpin Triple Tower", "images": {"gifs": ["tsttower.gif"], "stills": ["tsttower.gif"]}},
-  {"name": "5-Combo", "images": {"gifs": ["5combo.gif"], "stills": ["5combo.gif"]}},
-  {"name": "Fractal", "images": {"gifs": ["fractal.gif"], "stills": ["fractal.gif"]}},
-  {"name": "King Crimson", "images": {"gifs": ["kingcrimson.gif"], "stills": ["kingcrimson.gif"]}},
-  {"name": "Shadow Blade", "images": {"gifs": ["shadowblade.gif"], "stills": ["shadowblade.gif"]}},
-  {"name": "STSD", "images": {"gifs": ["stsd.gif"], "stills": ["stsd.gif"]}},
-  {"name": "Trinity", "images": {"gifs": ["trinity.gif"], "stills": ["trinity.gif"]}},
-  {"name": "TSpin Mini", "images": {"gifs": ["tsm.gif"], "stills": ["tsm.gif"]}},
-  {"name": "Uncut Copy", "images": {"gifs": ["uncutcopy.gif"], "stills": ["uncutcopy.gif"]}},
-  {"name": "Cut Copy (Thousand Birds Grid)", "images": {"gifs": ["cutcopy.gif"], "stills": ["cutcopy.gif"]}},
-  {"name": "Grim Grotto", "images": {"gifs": ["grimgrotto.gif"], "stills": ["grimgrotto.gif"]}},
-  {"name": "Parapet", "images": {"gifs": ["parapet.gif"], "stills": ["parapet.gif"]}},
-  {"name": "Shallow Grave", "images": {"gifs": ["shallowgrave.gif"], "stills": ["shallowgrave.gif"]}},
-  {"name": "S/Z Prop", "images": {"gifs": ["szprop.gif"], "stills": ["szprop.gif"]}},
-  {"name": "Triple Double", "images": {"gifs": ["tripledouble.gif"], "stills": ["tripledouble.gif"]}},
-  {"name": "TSpin Triple (TST)", "images": {"gifs": ["tst.gif"], "stills": ["tst.gif"]}},
-  {"name": "Magic Key", "images": {"gifs": ["magickey.gif"], "stills": ["magickey.gif"]}},
-  {"name": "Jigsaw", "images": {"gifs": ["jigsaw.gif"], "stills": ["jigsaw.gif"]}},
-  {"name": "TSD Deny -> Tetris", "images": {"gifs": ["tsddenytetris.gif"], "stills": ["tsddenytetris.gif"]}},
-  {"name": "Clapperboard", "images": {"gifs": ["clapperboard.gif"], "stills": ["clapperboard.gif"]}},
-  {"name": "Clapperboard 2", "images": {"gifs": ["clapperboard2.gif"], "stills": ["clapperboard2.gif"]}},
-  {"name": "Clapperboard Counter", "images": {"gifs": ["clapperboardcounter.gif"], "stills": ["clapperboardcounter.gif"]}},
-  {"name": "Clapperboard Counter 2", "images": {"gifs": ["clapperboardcounter2.gif"], "stills": ["clapperboardcounter2.gif"]}},
+  {"name": "2 B2Bs", "images": {"gifs": ["2b2b.gif"], "stills": ["2b2b.gif"]}, "type": "pattern"},
+  {"name": "DT Cannon", "images": {"gifs": ["dtcannon.gif"], "stills": ["dtcannon.gif"]}, "type": "pattern"},
+  {"name": "Imperial Cross", "images": {"gifs": ["imperialcross.gif"], "stills": ["imperialcross.gif"]}, "type": "pattern"},
+  {"name": "Corporate Slave Train (Shachiku)", "images": {"gifs": ["shachiku.gif"], "stills": ["shachiku.gif"]}, "type": "pattern"},
+  {"name": "STMB Cave", "images": {"gifs": ["stmbcave.gif"], "stills": ["stmbcave.gif"]}, "type": "pattern"},
+  {"name": "Tetris", "images": {"gifs": ["tetris.gif"], "stills": ["tetris.gif"]}, "type": "pattern"},
+  {"name": "TSpin Double (TSD)", "images": {"gifs": ["tsd.gif"], "stills": ["tsd.gif"]}, "type": "pattern"},
+  {"name": "TSpin Triple Tower", "images": {"gifs": ["tsttower.gif"], "stills": ["tsttower.gif"]}, "type": "pattern"},
+  {"name": "5-Combo", "images": {"gifs": ["5combo.gif"], "stills": ["5combo.gif"]}, "type": "pattern"},
+  {"name": "Fractal", "images": {"gifs": ["fractal.gif"], "stills": ["fractal.gif"]}, "type": "pattern"},
+  {"name": "King Crimson", "images": {"gifs": ["kingcrimson.gif"], "stills": ["kingcrimson.gif"]}, "type": "pattern"},
+  {"name": "Shadow Blade", "images": {"gifs": ["shadowblade.gif"], "stills": ["shadowblade.gif"]}, "type": "pattern"},
+  {"name": "STSD", "images": {"gifs": ["stsd.gif"], "stills": ["stsd.gif"]}, "type": "pattern"},
+  {"name": "Trinity", "images": {"gifs": ["trinity.gif"], "stills": ["trinity.gif"]}, "type": "pattern"},
+  {"name": "TSpin Mini", "images": {"gifs": ["tsm.gif"], "stills": ["tsm.gif"]}, "type": "pattern"},
+  {"name": "Uncut Copy", "images": {"gifs": ["uncutcopy.gif"], "stills": ["uncutcopy.gif"]}, "type": "pattern"},
+  {"name": "Cut Copy (Thousand Birds Grid)", "images": {"gifs": ["cutcopy.gif"], "stills": ["cutcopy.gif"]}, "type": "pattern"},
+  {"name": "Grim Grotto", "images": {"gifs": ["grimgrotto.gif"], "stills": ["grimgrotto.gif"]}, "type": "pattern"},
+  {"name": "Parapet", "images": {"gifs": ["parapet.gif"], "stills": ["parapet.gif"]}, "type": "pattern"},
+  {"name": "Shallow Grave", "images": {"gifs": ["shallowgrave.gif"], "stills": ["shallowgrave.gif"]}, "type": "pattern"},
+  {"name": "S/Z Prop", "images": {"gifs": ["szprop.gif"], "stills": ["szprop.gif"]}, "type": "pattern"},
+  {"name": "Triple Double", "images": {"gifs": ["tripledouble.gif"], "stills": ["tripledouble.gif"]}, "type": "pattern"},
+  {"name": "TSpin Triple (TST)", "images": {"gifs": ["tst.gif"], "stills": ["tst.gif"]}, "type": "pattern"},
+  {"name": "Magic Key", "images": {"gifs": ["magickey.gif"], "stills": ["magickey.gif"]}, "type": "pattern"},
+  {"name": "Jigsaw", "images": {"gifs": ["jigsaw.gif"], "stills": ["jigsaw.gif"]}, "type": "pattern"},
+  {"name": "TSD Deny -> Tetris", "images": {"gifs": ["tsddenytetris.gif"], "stills": ["tsddenytetris.gif"]}, "type": "pattern"},
+  {"name": "Clapperboard", "images": {"gifs": ["clapperboard.gif"], "stills": ["clapperboard.gif"]}, "type": "ispin"},
+  {"name": "Clapperboard 2", "images": {"gifs": ["clapperboard2.gif"], "stills": ["clapperboard2.gif"]}, "type": "ispin"},
+  {"name": "Clapperboard Counter", "images": {"gifs": ["clapperboardcounter.gif"], "stills": ["clapperboardcounter.gif"]}, "type": "ispin"},
+  {"name": "Clapperboard Counter 2", "images": {"gifs": ["clapperboardcounter2.gif"], "stills": ["clapperboardcounter2.gif"]}, "type": "ispin"},
 ];
 
 
@@ -92,8 +92,54 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
+function addPattern(pattern, index, checkboxContainer) {
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = `checkbox${index}`;
+    checkbox.value = index;
+    checkbox.checked = true;
+    checkbox.classList.add("patternBox");
+    checkbox.addEventListener("keydown", function(event) {
+        if (event.keyCode === 32 || event.key === " ") {
+            event.preventDefault();
+        }
+    });
+    checkbox.addEventListener("change", updateSelectAllCheckbox);
+    checkboxContainer.appendChild(checkbox);
+
+    const label = document.createElement("label");
+    label.htmlFor = `checkbox${index}`;
+    label.textContent = pattern["name"];
+    label.addEventListener("click", function(event) {
+        event.preventDefault();
+        resetCount();
+        loadImageByIndex(index);
+    });
+    checkboxContainer.appendChild(label);
+
+    // Add a line break after each checkbox and label
+    checkboxContainer.appendChild(document.createElement("br"));
+}
+
+function addISpin(pattern, index, iSpinContainer) {
+
+    const label = document.createElement("label");
+    label.textContent = "* " + pattern["name"];
+    label.addEventListener("click", function(event) {
+        event.preventDefault();
+        resetCount();
+        loadImageByIndex(index);
+    });
+    iSpinContainer.appendChild(label);
+
+    // Add a line break after each checkbox and label
+    iSpinContainer.appendChild(document.createElement("br"));
+
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     const checkboxContainer = document.getElementById("checkboxContainer");
+    const iSpinContainer = document.getElementById("iSpinContainer");
 
     // Add an All/None Checkbox
     const checkbox = document.createElement("input");
@@ -110,32 +156,11 @@ document.addEventListener("DOMContentLoaded", function() {
     checkboxContainer.appendChild(document.createElement("br"));
 
     patterns.forEach((pattern, index) => {
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.id = `checkbox${index}`;
-        checkbox.value = index;
-        checkbox.checked = true;
-        checkbox.classList.add("patternBox");
-        checkbox.addEventListener("keydown", function(event) {
-            if (event.keyCode === 32 || event.key === " ") {
-                event.preventDefault();
-            }
-        });
-        checkbox.addEventListener("change", updateSelectAllCheckbox);
-        checkboxContainer.appendChild(checkbox);
-
-        const label = document.createElement("label");
-        label.htmlFor = `checkbox${index}`;
-        label.textContent = pattern["name"];
-        label.addEventListener("click", function(event) {
-            event.preventDefault();
-            resetCount();
-            loadImageByIndex(index);
-        });
-        checkboxContainer.appendChild(label);
-
-        // Add a line break after each checkbox and label
-        checkboxContainer.appendChild(document.createElement("br"));
+        if (pattern["type"] === "pattern") {
+            addPattern(pattern, index, checkboxContainer);
+        } else if (pattern["type"] === "ispin") {
+            addISpin(pattern, index, iSpinContainer);
+        }
     });
 });
 
