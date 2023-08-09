@@ -31,7 +31,7 @@ const patterns = [
   {"name": "Clapperboard 2", "images": {"gifs": ["clapperboard2.gif"], "stills": ["clapperboard2.gif"]}, "type": "ispin"},
   {"name": "Clapperboard Counter", "images": {"gifs": ["clapperboardcounter.gif"], "stills": ["clapperboardcounter.gif"]}, "type": "ispin"},
   {"name": "Clapperboard Counter 2", "images": {"gifs": ["clapperboardcounter2.gif"], "stills": ["clapperboardcounter2.gif"]}, "type": "ispin"},
-  {"name": "S/Z Tuck", "images": {"gifs": ["sztuck.gif"], "stills": ["sztuck.gif"]}, "type": "sspin"},
+  {"name": "S/Z Tuck", "images": {"gifs": ["sztuck.gif"], "stills": ["sztuck.gif"]}, "type": "szspin"},
 ];
 
 
@@ -138,7 +138,7 @@ function addISpin(pattern, index, iSpinContainer) {
 
 }
 
-function addSSpin(pattern, index, sSpinContainer) {
+function addSZSpin(pattern, index, szSpinContainer) {
 
     const label = document.createElement("label");
     label.textContent = "* " + pattern["name"];
@@ -147,17 +147,17 @@ function addSSpin(pattern, index, sSpinContainer) {
         resetCount();
         loadImageByIndex(index);
     });
-    sSpinContainer.appendChild(label);
+    szSpinContainer.appendChild(label);
 
     // Add a line break after each checkbox and label
-    sSpinContainer.appendChild(document.createElement("br"));
+    szSpinContainer.appendChild(document.createElement("br"));
 
 }
 
 document.addEventListener("DOMContentLoaded", function() {
     const checkboxContainer = document.getElementById("checkboxContainer");
     const iSpinContainer = document.getElementById("iSpinContainer");
-    const sSpinContainer = document.getElementById("sSpinContainer");
+    const szSpinContainer = document.getElementById("szSpinContainer");
 
     // Add an All/None Checkbox
     const checkbox = document.createElement("input");
@@ -178,8 +178,8 @@ document.addEventListener("DOMContentLoaded", function() {
             addPattern(pattern, index, checkboxContainer);
         } else if (pattern["type"] === "ispin") {
             addISpin(pattern, index, iSpinContainer);
-        } else if (pattern["type"] === "sspin") {
-            addSSpin(pattern, index, sSpinContainer);
+        } else if (pattern["type"] === "szspin") {
+            addSZSpin(pattern, index, szSpinContainer);
         }
     });
 });
