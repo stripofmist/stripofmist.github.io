@@ -31,6 +31,7 @@ const patterns = [
   {"name": "Clapperboard 2", "images": {"gifs": ["clapperboard2.gif"], "stills": ["clapperboard2.gif"]}, "type": "ispin"},
   {"name": "Clapperboard Counter", "images": {"gifs": ["clapperboardcounter.gif"], "stills": ["clapperboardcounter.gif"]}, "type": "ispin"},
   {"name": "Clapperboard Counter 2", "images": {"gifs": ["clapperboardcounter2.gif"], "stills": ["clapperboardcounter2.gif"]}, "type": "ispin"},
+  {"name": "J/L Tuck", "images": {"gifs": ["jltuck.gif"], "stills": ["jltuck.gif"]}, "type": "jlspin"},
   {"name": "S/Z Tuck", "images": {"gifs": ["sztuck.gif"], "stills": ["sztuck.gif"]}, "type": "szspin"},
   {"name": "S/Z Kick", "images": {"gifs": ["szkick.gif"], "stills": ["szkick.gif"]}, "type": "szspin"},
   {"name": "StairMaster", "images": {"gifs": ["stairmaster.gif"], "stills": ["stairmaster.gif"]}, "type": "szspin"},
@@ -140,6 +141,22 @@ function addISpin(pattern, index, iSpinContainer) {
 
 }
 
+function addJLSpin(pattern, index, jlSpinContainer) {
+
+    const label = document.createElement("label");
+    label.textContent = "* " + pattern["name"];
+    label.addEventListener("click", function(event) {
+        event.preventDefault();
+        resetCount();
+        loadImageByIndex(index);
+    });
+    jlSpinContainer.appendChild(label);
+
+    // Add a line break after each checkbox and label
+    jlSpinContainer.appendChild(document.createElement("br"));
+
+}
+
 function addSZSpin(pattern, index, szSpinContainer) {
 
     const label = document.createElement("label");
@@ -159,6 +176,7 @@ function addSZSpin(pattern, index, szSpinContainer) {
 document.addEventListener("DOMContentLoaded", function() {
     const checkboxContainer = document.getElementById("checkboxContainer");
     const iSpinContainer = document.getElementById("iSpinContainer");
+    const jlSpinContainer = document.getElementById("jlSpinContainer");
     const szSpinContainer = document.getElementById("szSpinContainer");
 
     // Add an All/None Checkbox
@@ -180,6 +198,8 @@ document.addEventListener("DOMContentLoaded", function() {
             addPattern(pattern, index, checkboxContainer);
         } else if (pattern["type"] === "ispin") {
             addISpin(pattern, index, iSpinContainer);
+        } else if (pattern["type"] === "jlspin") {
+            addJLSpin(pattern, index, jlSpinContainer);
         } else if (pattern["type"] === "szspin") {
             addSZSpin(pattern, index, szSpinContainer);
         }
