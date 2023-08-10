@@ -32,6 +32,7 @@ const patterns = [
   {"name": "Clapperboard Counter", "images": {"gifs": ["clapperboardcounter.gif"], "stills": ["clapperboardcounter.gif"]}, "type": "ispin"},
   {"name": "Clapperboard Counter 2", "images": {"gifs": ["clapperboardcounter2.gif"], "stills": ["clapperboardcounter2.gif"]}, "type": "ispin"},
   {"name": "J/L Tuck", "images": {"gifs": ["jltuck.gif"], "stills": ["jltuck.gif"]}, "type": "jlspin"},
+  {"name": "Hammer", "images": {"gifs": ["hammer.gif"], "stills": ["hammer.gif"]}, "type": "jlspin"},
   {"name": "S/Z Tuck", "images": {"gifs": ["sztuck.gif"], "stills": ["sztuck.gif"]}, "type": "szspin"},
   {"name": "S/Z Kick", "images": {"gifs": ["szkick.gif"], "stills": ["szkick.gif"]}, "type": "szspin"},
   {"name": "StairMaster", "images": {"gifs": ["stairmaster.gif"], "stills": ["stairmaster.gif"]}, "type": "szspin"},
