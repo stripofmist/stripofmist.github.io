@@ -34,6 +34,7 @@ const patterns = [
   {"name": "J/L Tuck", "images": {"gifs": ["jltuck.gif"], "stills": ["jltuck.gif"]}, "type": "jlspin"},
   {"name": "Hammer", "images": {"gifs": ["hammer.gif"], "stills": ["hammer.gif"]}, "type": "jlspin"},
   {"name": "Faceplant", "images": {"gifs": ["faceplant.gif"], "stills": ["faceplant.gif"]}, "type": "jlspin"},
+  {"name": "Boomerang Spin", "images": {"gifs": ["boomerang.gif"], "stills": ["boomerang.gif"]}, "type": "jlspin"},
   {"name": "Grappling Hook", "images": {"gifs": ["grapplinghook.gif"], "stills": ["grapplinghook.gif"]}, "type": "jlspin"},
   {"name": "S/Z Tuck", "images": {"gifs": ["sztuck.gif"], "stills": ["sztuck.gif"]}, "type": "szspin"},
   {"name": "S/Z Kick", "images": {"gifs": ["szkick.gif"], "stills": ["szkick.gif"]}, "type": "szspin"},
