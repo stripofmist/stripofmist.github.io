@@ -38,6 +38,7 @@ const patterns = [
   {"name": "Boomerang Spin 2", "images": {"gifs": ["boomerang2.gif"], "stills": ["boomerang2.gif"]}, "type": "jlspin"},
   {"name": "Grappling Hook", "images": {"gifs": ["grapplinghook.gif"], "stills": ["grapplinghook.gif"]}, "type": "jlspin"},
   {"name": "Standing JSpin Mini", "images": {"gifs": ["standjspinmini.gif"], "stills": ["standjspinmini.gif"]}, "type": "jlspin"},
+  {"name": "Sitting JSpin Mini", "images": {"gifs": ["sitjspinmini.gif"], "stills": ["sitjspinmini.gif"]}, "type": "jlspin"},
   {"name": "S/Z Tuck", "images": {"gifs": ["sztuck.gif"], "stills": ["sztuck.gif"]}, "type": "szspin"},
   {"name": "S/Z Kick", "images": {"gifs": ["szkick.gif"], "stills": ["szkick.gif"]}, "type": "szspin"},
   {"name": "StairMaster", "images": {"gifs": ["stairmaster.gif"], "stills": ["stairmaster.gif"]}, "type": "szspin"},
