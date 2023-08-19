@@ -182,11 +182,41 @@ function addSZSpin(pattern, index, szSpinContainer) {
 
 }
 
+function loadSpins(spinDivs, outerDiv) {
+    clearPatterns(outerDiv);
+    spinDivs.forEach(function(spinDiv) {
+        outerDiv.append(spinDiv);
+    });
+}
+
+function loadPatterns(patternDiv, outerDiv) {
+    clearPatterns(outerDiv);
+    outerDiv.appendChild(patternDiv);
+}
+
+function clearPatterns(outerDiv) {
+    while (outerDiv.firstChild) {
+        outerDiv.removeChild(outerDiv.firstChild);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function() {
-    const checkboxContainer = document.getElementById("checkboxContainer");
-    const iSpinContainer = document.getElementById("iSpinContainer");
-    const jlSpinContainer = document.getElementById("jlSpinContainer");
-    const szSpinContainer = document.getElementById("szSpinContainer");
+    const patternDiv = document.createElement('div');
+    const patternH2 = document.createElement('h2');
+    patternH2.textContent = "Patterns";
+    patternDiv.appendChild(patternH2);
+    const ispinDiv = document.createElement('div');
+    const ispinH2 = document.createElement('h2');
+    ispinH2.textContent = "I Spins";
+    ispinDiv.appendChild(ispinH2);
+    const jlspinDiv = document.createElement('div');
+    const jlspinH2 = document.createElement('h2');
+    jlspinH2.textContent = "J/L Spins";
+    jlspinDiv.appendChild(jlspinH2);
+    const szspinDiv = document.createElement('div');
+    const szspinH2 = document.createElement('h2');
+    szspinH2.textContent = "S/Z Spins";
+    szspinDiv.appendChild(szspinH2);
 
     // Add an All/None Checkbox
     const checkbox = document.createElement("input");
@@ -194,25 +224,38 @@ document.addEventListener("DOMContentLoaded", function() {
     checkbox.id = "allNone";
     checkbox.checked = true;
     checkbox.addEventListener("change", toggleAllCheckboxes);
-    checkboxContainer.appendChild(checkbox);
+    patternDiv.appendChild(checkbox);
     const label = document.createElement("label");
     label.htmlFor = "allNone";
     label.textContent = "All/None"
-    checkboxContainer.appendChild(label);
-    checkboxContainer.appendChild(document.createElement("br"));
-    checkboxContainer.appendChild(document.createElement("br"));
+    patternDiv.appendChild(label);
+    patternDiv.appendChild(document.createElement("br"));
+    patternDiv.appendChild(document.createElement("br"));
 
     patterns.forEach((pattern, index) => {
         if (pattern["type"] === "pattern") {
-            addPattern(pattern, index, checkboxContainer);
+            addPattern(pattern, index, patternDiv);
         } else if (pattern["type"] === "ispin") {
-            addISpin(pattern, index, iSpinContainer);
+            addISpin(pattern, index, ispinDiv);
         } else if (pattern["type"] === "jlspin") {
-            addJLSpin(pattern, index, jlSpinContainer);
+            addJLSpin(pattern, index, jlspinDiv);
         } else if (pattern["type"] === "szspin") {
-            addSZSpin(pattern, index, szSpinContainer);
+            addSZSpin(pattern, index, szspinDiv);
         }
     });
+
+    const outerPatternDiv = document.getElementById("outerPatternDiv");
+    outerPatternDiv.appendChild(patternDiv);
+
+    const tspinmenu = document.getElementById("tspinroulette");
+    tspinmenu.addEventListener("click", function () {
+        loadPatterns(patternDiv, outerPatternDiv);
+    });
+    const spinsmenu = document.getElementById("spins");
+    spinsmenu.addEventListener("click", function () {
+        loadSpins([ispinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
+    });
+
 });
 
 window.addEventListener("keydown", function(event) {
