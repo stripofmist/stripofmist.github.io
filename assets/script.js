@@ -134,7 +134,7 @@ function addPattern(pattern, index, checkboxContainer) {
     checkboxContainer.appendChild(document.createElement("br"));
 }
 
-function addISpin(pattern, index, iSpinContainer) {
+function addSpin(pattern, index, spinContainer) {
 
     const label = document.createElement("label");
     label.textContent = "* " + pattern["name"];
@@ -143,42 +143,10 @@ function addISpin(pattern, index, iSpinContainer) {
         resetCount();
         loadImageByIndex(index);
     });
-    iSpinContainer.appendChild(label);
+    spinContainer.appendChild(label);
 
     // Add a line break after each checkbox and label
-    iSpinContainer.appendChild(document.createElement("br"));
-
-}
-
-function addJLSpin(pattern, index, jlSpinContainer) {
-
-    const label = document.createElement("label");
-    label.textContent = "* " + pattern["name"];
-    label.addEventListener("click", function(event) {
-        event.preventDefault();
-        resetCount();
-        loadImageByIndex(index);
-    });
-    jlSpinContainer.appendChild(label);
-
-    // Add a line break after each checkbox and label
-    jlSpinContainer.appendChild(document.createElement("br"));
-
-}
-
-function addSZSpin(pattern, index, szSpinContainer) {
-
-    const label = document.createElement("label");
-    label.textContent = "* " + pattern["name"];
-    label.addEventListener("click", function(event) {
-        event.preventDefault();
-        resetCount();
-        loadImageByIndex(index);
-    });
-    szSpinContainer.appendChild(label);
-
-    // Add a line break after each checkbox and label
-    szSpinContainer.appendChild(document.createElement("br"));
+    spinContainer.appendChild(document.createElement("br"));
 
 }
 
@@ -201,6 +169,7 @@ function clearPatterns(outerDiv) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    // Create a div for patterns and all the spins
     const patternDiv = document.createElement('div');
     const patternH2 = document.createElement('h2');
     patternH2.textContent = "Patterns";
@@ -232,21 +201,24 @@ document.addEventListener("DOMContentLoaded", function() {
     patternDiv.appendChild(document.createElement("br"));
     patternDiv.appendChild(document.createElement("br"));
 
+    // Add all patterns to their respective divs
     patterns.forEach((pattern, index) => {
         if (pattern["type"] === "pattern") {
             addPattern(pattern, index, patternDiv);
         } else if (pattern["type"] === "ispin") {
-            addISpin(pattern, index, ispinDiv);
+            addSpin(pattern, index, ispinDiv);
         } else if (pattern["type"] === "jlspin") {
-            addJLSpin(pattern, index, jlspinDiv);
+            addSpin(pattern, index, jlspinDiv);
         } else if (pattern["type"] === "szspin") {
-            addSZSpin(pattern, index, szspinDiv);
+            addSpin(pattern, index, szspinDiv);
         }
     });
 
+    // Add the pattern div to the actual page
     const outerPatternDiv = document.getElementById("outerPatternDiv");
     outerPatternDiv.appendChild(patternDiv);
 
+    // Clicking the menu buttons change which patterns are displayed
     const tspinmenu = document.getElementById("tspinroulette");
     tspinmenu.addEventListener("click", function () {
         loadPatterns(patternDiv, outerPatternDiv);
