@@ -293,4 +293,10 @@ function loadImageByIndex(i) {
     const centeredText = document.getElementById("centeredText");
     centeredImage.src = "images/" + patterns[i]["images"]["gifs"][0];
     centeredText.textContent = patterns[i]["name"];
+
+    const imgName = patterns[i]["images"]["gifs"][0];
+
+    const newURL = imgName.substring(0, imgName.length - 4);
+    history.pushState(null, null, newURL);
+
 }
