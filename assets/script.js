@@ -222,6 +222,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const referrer = document.referrer;
     const pir = patternInReferrer();
+    console.log("pir " + pir);
     var refInd = null;
 
     // Add all patterns to their respective divs
@@ -235,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function() {
         } else if (pattern["type"] === "szspin") {
             addSpin(pattern, index, szspinDiv);
         }
-
+        console.log(pattern["filename"]);
         if (pir === pattern["filename"]) {
             console.log("yep " + index);
         }
