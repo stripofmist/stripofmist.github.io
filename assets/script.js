@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const outerPatternDiv = document.getElementById("outerPatternDiv");
             outerPatternDiv.appendChild(ispinDiv);
             outerPatternDiv.appendChild(jlspinDiv);
-            outerPatternDiv.appendChild(szpinDiv);
+            outerPatternDiv.appendChild(szspinDiv);
         } else {
             // Add the pattern div to the actual page
             const outerPatternDiv = document.getElementById("outerPatternDiv");
