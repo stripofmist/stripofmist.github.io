@@ -168,6 +168,24 @@ function clearPatterns(outerDiv) {
     }
 }
 
+function patternInReferrer() {
+    const referrer = document.referrer;
+    console.log("Got referrer");
+    console.log(referrer);
+
+    const lastIndex = referrer.lastIndexOf('/');
+    if (lastIndex !== -1 && lastIndex < referrer.length - 1) {
+        const pat = referrer.substring(lastIndex + 1);
+        const lhtml = ".html".length;
+        if (pat.length > lhtml && pat.slice(-lhtml) === ".html") {
+            return pat.slice(0, -lhtml);
+        } else {
+            return pat;
+        }
+    }
+    return null;
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     // Create a div for patterns and all the spins
     const patternDiv = document.createElement('div');
@@ -201,6 +219,11 @@ document.addEventListener("DOMContentLoaded", function() {
     patternDiv.appendChild(document.createElement("br"));
     patternDiv.appendChild(document.createElement("br"));
 
+
+    const referrer = document.referrer;
+    const pir = patternInReferrer();
+    var refInd = null;
+
     // Add all patterns to their respective divs
     patterns.forEach((pattern, index) => {
         if (pattern["type"] === "pattern") {
@@ -211,6 +234,10 @@ document.addEventListener("DOMContentLoaded", function() {
             addSpin(pattern, index, jlspinDiv);
         } else if (pattern["type"] === "szspin") {
             addSpin(pattern, index, szspinDiv);
+        }
+
+        if (pir === pattern["filename"]) {
+            console.log("yep " + index);
         }
     });
 
@@ -296,4 +323,3 @@ function loadImageByIndex(i) {
     centeredText.textContent = patterns[i]["name"];
 }
 
-console.log(document.referrer);
