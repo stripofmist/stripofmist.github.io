@@ -170,8 +170,6 @@ function clearPatterns(outerDiv) {
 
 function patternInReferrer() {
     const referrer = document.referrer;
-    console.log("Got referrer");
-    console.log(referrer);
 
     const lastIndex = referrer.lastIndexOf('/');
     if (lastIndex !== -1 && lastIndex < referrer.length - 1) {
@@ -222,7 +220,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const referrer = document.referrer;
     const pir = patternInReferrer();
-    console.log("pir " + pir);
     var refInd = null;
 
     // Add all patterns to their respective divs
@@ -236,15 +233,30 @@ document.addEventListener("DOMContentLoaded", function() {
         } else if (pattern["type"] === "szspin") {
             addSpin(pattern, index, szspinDiv);
         }
-        console.log(pattern["filename"]);
         if (pir === pattern["filename"]) {
-            console.log("yep " + index);
+            refInd = index;
         }
     });
 
-    // Add the pattern div to the actual page
-    const outerPatternDiv = document.getElementById("outerPatternDiv");
-    outerPatternDiv.appendChild(patternDiv);
+    if (refInd !== null) {
+        loadImageByIndex(refInd);
+        const rtyp = patterns[refInd]["type"];
+        if (rtyp === "ispin" || rtyp === "jlspin" || rtyp === "szspin") {
+            // Add the spin divs to the actual page
+            const outerPatternDiv = document.getElementById("outerPatternDiv");
+            outerPatternDiv.appendChild(ispinDiv);
+            outerPatternDiv.appendChild(jlspinDiv);
+            outerPatternDiv.appendChild(szpinDiv);
+        } else {
+            // Add the pattern div to the actual page
+            const outerPatternDiv = document.getElementById("outerPatternDiv");
+            outerPatternDiv.appendChild(patternDiv);
+        }
+    } else {
+            // Add the pattern div to the actual page
+            const outerPatternDiv = document.getElementById("outerPatternDiv");
+            outerPatternDiv.appendChild(patternDiv);
+    }
 
     // Clicking the menu buttons change which patterns are displayed
     const tspinmenu = document.getElementById("tspinroulette");
