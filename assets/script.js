@@ -1,49 +1,49 @@
 var count = 0;
 
 const patterns = [
-  {"name": "2 B2Bs", "images": {"gifs": ["2b2b.gif"], "stills": ["2b2b.gif"]}, "type": "pattern"},
-  {"name": "DT Cannon", "images": {"gifs": ["dtcannon.gif"], "stills": ["dtcannon.gif"]}, "type": "pattern"},
-  {"name": "Imperial Cross", "images": {"gifs": ["imperialcross.gif"], "stills": ["imperialcross.gif"]}, "type": "pattern"},
-  {"name": "Corporate Slave Train (Shachiku)", "images": {"gifs": ["shachiku.gif"], "stills": ["shachiku.gif"]}, "type": "pattern"},
-  {"name": "STMB Cave", "images": {"gifs": ["stmbcave.gif"], "stills": ["stmbcave.gif"]}, "type": "pattern"},
-  {"name": "Tetris", "images": {"gifs": ["tetris.gif"], "stills": ["tetris.gif"]}, "type": "pattern"},
-  {"name": "TSpin Double (TSD)", "images": {"gifs": ["tsd.gif"], "stills": ["tsd.gif"]}, "type": "pattern"},
-  {"name": "TSpin Triple Tower", "images": {"gifs": ["tsttower.gif"], "stills": ["tsttower.gif"]}, "type": "pattern"},
-  {"name": "5-Combo", "images": {"gifs": ["5combo.gif"], "stills": ["5combo.gif"]}, "type": "pattern"},
-  {"name": "Fractal", "images": {"gifs": ["fractal.gif"], "stills": ["fractal.gif"]}, "type": "pattern"},
-  {"name": "King Crimson", "images": {"gifs": ["kingcrimson.gif"], "stills": ["kingcrimson.gif"]}, "type": "pattern"},
-  {"name": "Shadow Blade", "images": {"gifs": ["shadowblade.gif"], "stills": ["shadowblade.gif"]}, "type": "pattern"},
-  {"name": "STSD", "images": {"gifs": ["stsd.gif"], "stills": ["stsd.gif"]}, "type": "pattern"},
-  {"name": "Trinity", "images": {"gifs": ["trinity.gif"], "stills": ["trinity.gif"]}, "type": "pattern"},
-  {"name": "TSpin Mini", "images": {"gifs": ["tsm.gif"], "stills": ["tsm.gif"]}, "type": "pattern"},
-  {"name": "Uncut Copy", "images": {"gifs": ["uncutcopy.gif"], "stills": ["uncutcopy.gif"]}, "type": "pattern"},
-  {"name": "Cut Copy (Thousand Birds Grid)", "images": {"gifs": ["cutcopy.gif"], "stills": ["cutcopy.gif"]}, "type": "pattern"},
-  {"name": "Grim Grotto", "images": {"gifs": ["grimgrotto.gif"], "stills": ["grimgrotto.gif"]}, "type": "pattern"},
-  {"name": "Parapet", "images": {"gifs": ["parapet.gif"], "stills": ["parapet.gif"]}, "type": "pattern"},
-  {"name": "Shallow Grave", "images": {"gifs": ["shallowgrave.gif"], "stills": ["shallowgrave.gif"]}, "type": "pattern"},
-  {"name": "S/Z Prop", "images": {"gifs": ["szprop.gif"], "stills": ["szprop.gif"]}, "type": "pattern"},
-  {"name": "Triple Double", "images": {"gifs": ["tripledouble.gif"], "stills": ["tripledouble.gif"]}, "type": "pattern"},
-  {"name": "TSpin Triple (TST)", "images": {"gifs": ["tst.gif"], "stills": ["tst.gif"]}, "type": "pattern"},
-  {"name": "Magic Key", "images": {"gifs": ["magickey.gif"], "stills": ["magickey.gif"]}, "type": "pattern"},
-  {"name": "Jigsaw", "images": {"gifs": ["jigsaw.gif"], "stills": ["jigsaw.gif"]}, "type": "pattern"},
-  {"name": "TSD Deny -> Tetris", "images": {"gifs": ["tsddenytetris.gif"], "stills": ["tsddenytetris.gif"]}, "type": "pattern"},
-  {"name": "Clapperboard", "images": {"gifs": ["clapperboard.gif"], "stills": ["clapperboard.gif"]}, "type": "ispin"},
-  {"name": "Clapperboard 2", "images": {"gifs": ["clapperboard2.gif"], "stills": ["clapperboard2.gif"]}, "type": "ispin"},
-  {"name": "Clapperboard Counter", "images": {"gifs": ["clapperboardcounter.gif"], "stills": ["clapperboardcounter.gif"]}, "type": "ispin"},
-  {"name": "Clapperboard Counter 2", "images": {"gifs": ["clapperboardcounter2.gif"], "stills": ["clapperboardcounter2.gif"]}, "type": "ispin"},
-  {"name": "J/L Tuck", "images": {"gifs": ["jltuck.gif"], "stills": ["jltuck.gif"]}, "type": "jlspin"},
-  {"name": "Hammer", "images": {"gifs": ["hammer.gif"], "stills": ["hammer.gif"]}, "type": "jlspin"},
-  {"name": "Faceplant", "images": {"gifs": ["faceplant.gif"], "stills": ["faceplant.gif"]}, "type": "jlspin"},
-  {"name": "Faceplant 2", "images": {"gifs": ["faceplant2.gif"], "stills": ["faceplant2.gif"]}, "type": "jlspin"},
-  {"name": "Boomerang Spin", "images": {"gifs": ["boomerang.gif"], "stills": ["boomerang.gif"]}, "type": "jlspin"},
-  {"name": "Boomerang Spin 2", "images": {"gifs": ["boomerang2.gif"], "stills": ["boomerang2.gif"]}, "type": "jlspin"},
-  {"name": "Grappling Hook", "images": {"gifs": ["grapplinghook.gif"], "stills": ["grapplinghook.gif"]}, "type": "jlspin"},
-  {"name": "Standing JSpin Mini", "images": {"gifs": ["standjspinmini.gif"], "stills": ["standjspinmini.gif"]}, "type": "jlspin"},
-  {"name": "Sitting JSpin Mini", "images": {"gifs": ["sitjspinmini.gif"], "stills": ["sitjspinmini.gif"]}, "type": "jlspin"},
-  {"name": "Somersault", "images": {"gifs": ["somersault.gif"], "stills": ["somersault.gif"]}, "type": "jlspin"},
-  {"name": "S/Z Tuck", "images": {"gifs": ["sztuck.gif"], "stills": ["sztuck.gif"]}, "type": "szspin"},
-  {"name": "S/Z Kick", "images": {"gifs": ["szkick.gif"], "stills": ["szkick.gif"]}, "type": "szspin"},
-  {"name": "StairMaster", "images": {"gifs": ["stairmaster.gif"], "stills": ["stairmaster.gif"]}, "type": "szspin"},
+  {"name": "2 B2Bs", "filename": "2b2b", "type": "pattern"},
+  {"name": "DT Cannon", "filename": "dtcannon", "type": "pattern"},
+  {"name": "Imperial Cross", "filename": "imperialcross", "type": "pattern"},
+  {"name": "Corporate Slave Train (Shachiku)", "filename": "shachiku", "type": "pattern"},
+  {"name": "STMB Cave", "filename": "stmbcave", "type": "pattern"},
+  {"name": "Tetris", "filename": "tetris", "type": "pattern"},
+  {"name": "TSpin Double (TSD)", "filename": "tsd", "type": "pattern"},
+  {"name": "TSpin Triple Tower", "filename": "tsttower", "type": "pattern"},
+  {"name": "5-Combo", "filename": "5combo", "type": "pattern"},
+  {"name": "Fractal", "filename": "fractal", "type": "pattern"},
+  {"name": "King Crimson", "filename": "kingcrimson", "type": "pattern"},
+  {"name": "Shadow Blade", "filename": "shadowblade", "type": "pattern"},
+  {"name": "STSD", "filename": "stsd", "type": "pattern"},
+  {"name": "Trinity", "filename": "trinity", "type": "pattern"},
+  {"name": "TSpin Mini", "filename": "tsm", "type": "pattern"},
+  {"name": "Uncut Copy", "filename": "uncutcopy", "type": "pattern"},
+  {"name": "Cut Copy (Thousand Birds Grid)", "filename": "cutcopy", "type": "pattern"},
+  {"name": "Grim Grotto", "filename": "grimgrotto", "type": "pattern"},
+  {"name": "Parapet", "filename": "parapet", "type": "pattern"},
+  {"name": "Shallow Grave", "filename": "shallowgrave", "type": "pattern"},
+  {"name": "S/Z Prop", "filename": "szprop", "type": "pattern"},
+  {"name": "Triple Double", "filename": "tripledouble", "type": "pattern"},
+  {"name": "TSpin Triple (TST)", "filename": "tst", "type": "pattern"},
+  {"name": "Magic Key", "filename": "magickey", "type": "pattern"},
+  {"name": "Jigsaw", "filename": "jigsaw", "type": "pattern"},
+  {"name": "TSD Deny -> Tetris", "filename": "tsddenytetris", "type": "pattern"},
+  {"name": "Clapperboard", "filename": "clapperboard", "type": "ispin"},
+  {"name": "Clapperboard 2", "filename": "clapperboard2", "type": "ispin"},
+  {"name": "Clapperboard Counter", "filename": "clapperboardcounter", "type": "ispin"},
+  {"name": "Clapperboard Counter 2", "filename": "clapperboardcounter2", "type": "ispin"},
+  {"name": "J/L Tuck", "filename": "jltuck", "type": "jlspin"},
+  {"name": "Hammer", "filename": "hammer", "type": "jlspin"},
+  {"name": "Faceplant", "filename": "faceplant", "type": "jlspin"},
+  {"name": "Faceplant 2", "filename": "faceplant2", "type": "jlspin"},
+  {"name": "Boomerang Spin", "filename": "boomerang", "type": "jlspin"},
+  {"name": "Boomerang Spin 2", "filename": "boomerang2", "type": "jlspin"},
+  {"name": "Grappling Hook", "filename": "grapplinghook", "type": "jlspin"},
+  {"name": "Standing JSpin Mini", "filename": "standjspinmini", "type": "jlspin"},
+  {"name": "Sitting JSpin Mini", "filename": "sitjspinmini", "type": "jlspin"},
+  {"name": "Somersault", "filename": "somersault", "type": "jlspin"},
+  {"name": "S/Z Tuck", "filename": "sztuck", "type": "szspin"},
+  {"name": "S/Z Kick", "filename": "szkick", "type": "szspin"},
+  {"name": "StairMaster", "filename": "stairmaster", "type": "szspin"},
 ];
 
 
@@ -228,6 +228,8 @@ document.addEventListener("DOMContentLoaded", function() {
         loadSpins([ispinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
     });
 
+    const currentPath = window.location.pathname;
+
 });
 
 window.addEventListener("keydown", function(event) {
@@ -291,12 +293,9 @@ function incrementCount() {
 function loadImageByIndex(i) {
     const centeredImage = document.getElementById("centeredImage");
     const centeredText = document.getElementById("centeredText");
-    centeredImage.src = "images/" + patterns[i]["images"]["gifs"][0];
+    centeredImage.src = "images/" + patterns[i]["filename"] + ".gif";
     centeredText.textContent = patterns[i]["name"];
 
-    const imgName = patterns[i]["images"]["gifs"][0];
-
-    const newURL = imgName.substring(0, imgName.length - 4);
-    history.pushState(null, null, newURL);
+    history.pushState(null, null, patterns[i]["filename"]);
 
 }
