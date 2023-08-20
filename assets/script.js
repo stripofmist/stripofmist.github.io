@@ -228,6 +228,7 @@ document.addEventListener("DOMContentLoaded", function() {
         loadSpins([ispinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
     });
 
+
 });
 
 window.addEventListener("keydown", function(event) {
@@ -294,3 +295,5 @@ function loadImageByIndex(i) {
     centeredImage.src = "images/" + patterns[i]["images"]["gifs"][0];
     centeredText.textContent = patterns[i]["name"];
 }
+
+console.log(document.referrer);
