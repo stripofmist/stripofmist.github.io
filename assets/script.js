@@ -145,6 +145,14 @@ function addSpin(pattern, index, spinContainer) {
 
 }
 
+function loadSpinPage(spinDivs, outerDiv) {
+    loadSpins(spinDivs, outerPatternDiv);
+    loadGifByIndex(jltuckIdx);
+    const centeredText = document.getElementById("centeredText");
+    centeredText.textContent = "Spins";
+    history.pushState(null, null, "spins");
+}
+
 function loadSpins(spinDivs, outerDiv) {
     clearPatterns(outerDiv);
     spinDivs.forEach(function(spinDiv) {
@@ -259,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     } else {
             if (pir === "spins") {
-                loadSpins([ispinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
+                loadSpinPage([ispinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
             } else {
                 // Add the pattern div to the actual page
                 loadPatterns(patternDiv, outerPatternDiv);
@@ -276,11 +284,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const spinsmenu = document.getElementById("spins");
     spinsmenu.addEventListener("click", function (event) {
         event.preventDefault();
-        loadSpins([ispinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
-        loadGifByIndex(jltuckIdx);
-        const centeredText = document.getElementById("centeredText");
-        centeredText.textContent = "Spins";
-        history.pushState(null, null, "spins");
+        loadSpinPage([ispinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
     });
 
 });
