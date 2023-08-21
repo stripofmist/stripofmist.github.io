@@ -1,4 +1,5 @@
 var count = 0;
+var tsdIdx = -1;
 
 const patterns = [
   {"name": "2 B2Bs", "filename": "2b2b", "type": "pattern"},
@@ -59,18 +60,11 @@ function pressRandomButton() {
 }
 
 function pressRestartButton() {
+    const centeredText = document.getElementById("centeredText");
+    centeredText.textContent = "TSpin Roulette";
     resetCount();
-    const randomIndex = generateRandomPattern();
-    if (randomIndex === -1){
-        return;
-    }
-    loadImageByIndex(randomIndex);
+    loadGifByIndex(tsdIdx);
 }
-
-tspinroulette.addEventListener("click", function(event) {
-    event.preventDefault();
-    pressRestartButton();
-});
 
 about.addEventListener("click", function(event) {
     event.preventDefault();
@@ -233,8 +227,15 @@ document.addEventListener("DOMContentLoaded", function() {
         } else if (pattern["type"] === "szspin") {
             addSpin(pattern, index, szspinDiv);
         }
+
+        // Remember index if it is the referrer pattern
         if (pir === pattern["filename"]) {
             refInd = index;
+        }
+
+        // Remember index if this is TSD
+        if ("tsd" === pattern["filename"]) {
+            tsdIdx = index;
         }
     });
 
@@ -260,8 +261,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Clicking the menu buttons change which patterns are displayed
     const tspinmenu = document.getElementById("tspinroulette");
-    tspinmenu.addEventListener("click", function () {
+    tspinmenu.addEventListener("click", function (event) {
+        event.preventDefault();
         loadPatterns(patternDiv, outerPatternDiv);
+        pressRestartButton();
     });
     const spinsmenu = document.getElementById("spins");
     spinsmenu.addEventListener("click", function () {
@@ -328,10 +331,14 @@ function incrementCount() {
     counter.textContent = count;
 }
 
-function loadImageByIndex(i) {
+function loadGifByIndex(i) {
     const centeredImage = document.getElementById("centeredImage");
-    const centeredText = document.getElementById("centeredText");
     centeredImage.src = "images/" + patterns[i]["filename"] + ".gif";
+}
+
+function loadImageByIndex(i) {
+    const centeredText = document.getElementById("centeredText");
+    loadGifByIndex(i);
     centeredText.textContent = patterns[i]["name"];
 
     history.pushState(null, null, patterns[i]["filename"]);
