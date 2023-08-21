@@ -65,6 +65,7 @@ function pressRestartButton() {
     centeredText.textContent = "TSpin Roulette";
     resetCount();
     loadGifByIndex(tsdIdx);
+    history.pushState(null, null, "/");
 }
 
 about.addEventListener("click", function(event) {
