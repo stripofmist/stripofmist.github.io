@@ -1,5 +1,6 @@
 var count = 0;
 var tsdIdx = -1;
+var jltuckIdx = -1;
 
 const patterns = [
   {"name": "2 B2Bs", "filename": "2b2b", "type": "pattern"},
@@ -237,26 +238,32 @@ document.addEventListener("DOMContentLoaded", function() {
         if ("tsd" === pattern["filename"]) {
             tsdIdx = index;
         }
+
+        // Remember index if this is jltuck
+        if ("jltuck" === pattern["filename"]) {
+            jltuckIdx = index;
+        }
     });
+
+    const outerPatternDiv = document.getElementById("outerPatternDiv");
 
     if (refInd !== null) {
         loadImageByIndex(refInd);
         const rtyp = patterns[refInd]["type"];
         if (rtyp === "ispin" || rtyp === "jlspin" || rtyp === "szspin") {
             // Add the spin divs to the actual page
-            const outerPatternDiv = document.getElementById("outerPatternDiv");
-            outerPatternDiv.appendChild(ispinDiv);
-            outerPatternDiv.appendChild(jlspinDiv);
-            outerPatternDiv.appendChild(szspinDiv);
+            loadSpins([ispinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
         } else {
             // Add the pattern div to the actual page
-            const outerPatternDiv = document.getElementById("outerPatternDiv");
-            outerPatternDiv.appendChild(patternDiv);
+            loadPatterns(patternDiv, outerPatternDiv);
         }
     } else {
-            // Add the pattern div to the actual page
-            const outerPatternDiv = document.getElementById("outerPatternDiv");
-            outerPatternDiv.appendChild(patternDiv);
+            if (pir === "spins") {
+                loadSpins([ispinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
+            } else {
+                // Add the pattern div to the actual page
+                loadPatterns(patternDiv, outerPatternDiv);
+            }
     }
 
     // Clicking the menu buttons change which patterns are displayed
@@ -267,8 +274,13 @@ document.addEventListener("DOMContentLoaded", function() {
         pressRestartButton();
     });
     const spinsmenu = document.getElementById("spins");
-    spinsmenu.addEventListener("click", function () {
+    spinsmenu.addEventListener("click", function (event) {
+        event.preventDefault();
         loadSpins([ispinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
+        loadGifByIndex(jltuckIdx);
+        const centeredText = document.getElementById("centeredText");
+        centeredText.textContent = "Spins";
+        history.pushState(null, null, "spins");
     });
 
 });
