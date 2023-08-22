@@ -34,6 +34,7 @@ const patterns = [
   {"name": "Clapperboard Counter", "filename": "clapperboardcounter", "type": "ispin"},
   {"name": "Clapperboard Counter 2", "filename": "clapperboardcounter2", "type": "ispin"},
   {"name": "J/L Tuck", "filename": "jltuck", "type": "jlspin"},
+  {"name": "Brace", "filename": "brace", "type": "jlspin"},
   {"name": "Hammer", "filename": "hammer", "type": "jlspin"},
   {"name": "Faceplant", "filename": "faceplant", "type": "jlspin"},
   {"name": "Faceplant 2", "filename": "faceplant2", "type": "jlspin"},
