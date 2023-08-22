@@ -1,6 +1,6 @@
 var count = 0;
 var tsdIdx = -1;
-var jltuckIdx = -1;
+var wmIdx = -1;
 
 const patterns = [
   {"name": "2 B2Bs", "filename": "2b2b", "type": "pattern"},
@@ -152,7 +152,7 @@ function addSpin(pattern, index, spinContainer) {
 
 function loadSpinPage(spinDivs, outerDiv) {
     loadSpins(spinDivs, outerPatternDiv);
-    loadGifByIndex(jltuckIdx);
+    loadGifByIndex(wmIdx);
     const centeredText = document.getElementById("centeredText");
     centeredText.textContent = "Spins";
     history.pushState(null, null, "spins");
@@ -253,8 +253,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // Remember index if this is jltuck
-        if ("jltuck" === pattern["filename"]) {
-            jltuckIdx = index;
+        if ("washingmachine" === pattern["filename"]) {
+            wmIdx = index;
         }
     });
 
