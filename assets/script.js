@@ -41,6 +41,7 @@ const patterns = [
   {"name": "Boomerang Spin", "filename": "boomerang", "type": "jlspin"},
   {"name": "Boomerang Spin 2", "filename": "boomerang2", "type": "jlspin"},
   {"name": "Scoot", "filename": "scoot", "type": "jlspin"},
+  {"name": "Scoot 2", "filename": "scoot2", "type": "jlspin"},
   {"name": "Grappling Hook", "filename": "grapplinghook", "type": "jlspin"},
   {"name": "Standing JSpin Mini", "filename": "standjspinmini", "type": "jlspin"},
   {"name": "Sitting JSpin Mini", "filename": "sitjspinmini", "type": "jlspin"},
