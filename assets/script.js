@@ -46,6 +46,7 @@ const patterns = [
   {"name": "Standing JSpin Mini", "filename": "standjspinmini", "type": "jlspin"},
   {"name": "Sitting JSpin Mini", "filename": "sitjspinmini", "type": "jlspin"},
   {"name": "Somersault", "filename": "somersault", "type": "jlspin"},
+  {"name": "Washing Machine", "filename": "washingmachine", "type": "jlspin"},
   {"name": "S/Z Tuck", "filename": "sztuck", "type": "szspin"},
   {"name": "S/Z Kick", "filename": "szkick", "type": "szspin"},
   {"name": "StairMaster", "filename": "stairmaster", "type": "szspin"},
