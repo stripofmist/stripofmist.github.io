@@ -33,6 +33,11 @@ const patterns = [
   {"name": "Clapperboard 2", "filename": "clapperboard2", "type": "ispin"},
   {"name": "Clapperboard Counter", "filename": "clapperboardcounter", "type": "ispin"},
   {"name": "Clapperboard Counter 2", "filename": "clapperboardcounter2", "type": "ispin"},
+  {"name": "TSpin Double", "filename": "tsdspin", "type": "tspin"},
+  {"name": "TSpin Double Kick", "filename": "tsdkick", "type": "tspin"},
+  {"name": "TSpin Triple", "filename": "tstspin", "type": "tspin"},
+  {"name": "TSpin Mini Tuck", "filename": "tspinminituck", "type": "tspin"},
+  {"name": "TSpin Mini Wall Kick", "filename": "tspinminiwallkick", "type": "tspin"},
   {"name": "J/L Tuck", "filename": "jltuck", "type": "jlspin"},
   {"name": "Nosedive", "filename": "nosedive", "type": "jlspin"},
   {"name": "Hammer", "filename": "hammer", "type": "jlspin"},
@@ -202,6 +207,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const ispinH2 = document.createElement('h2');
     ispinH2.textContent = "I Spins";
     ispinDiv.appendChild(ispinH2);
+    const tspinDiv = document.createElement('div');
+    const tspinH2 = document.createElement('h2');
+    tspinH2.textContent = "T Spins";
+    tspinDiv.appendChild(tspinH2);
     const jlspinDiv = document.createElement('div');
     const jlspinH2 = document.createElement('h2');
     jlspinH2.textContent = "J/L Spins";
@@ -236,6 +245,8 @@ document.addEventListener("DOMContentLoaded", function() {
             addPattern(pattern, index, patternDiv);
         } else if (pattern["type"] === "ispin") {
             addSpin(pattern, index, ispinDiv);
+        } else if (pattern["type"] === "tspin") {
+            addSpin(pattern, index, tspinDiv);
         } else if (pattern["type"] === "jlspin") {
             addSpin(pattern, index, jlspinDiv);
         } else if (pattern["type"] === "szspin") {
@@ -263,16 +274,16 @@ document.addEventListener("DOMContentLoaded", function() {
     if (refInd !== null) {
         loadImageByIndex(refInd);
         const rtyp = patterns[refInd]["type"];
-        if (rtyp === "ispin" || rtyp === "jlspin" || rtyp === "szspin") {
+        if (rtyp === "ispin" || rtyp === "tspin" || rtyp === "jlspin" || rtyp === "szspin") {
             // Add the spin divs to the actual page
-            loadSpins([ispinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
+            loadSpins([ispinDiv, tspinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
         } else {
             // Add the pattern div to the actual page
             loadPatterns(patternDiv, outerPatternDiv);
         }
     } else {
             if (pir === "spins") {
-                loadSpinPage([ispinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
+                loadSpinPage([ispinDiv, tspinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
             } else {
                 // Add the pattern div to the actual page
                 loadPatterns(patternDiv, outerPatternDiv);
@@ -289,7 +300,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const spinsmenu = document.getElementById("spins");
     spinsmenu.addEventListener("click", function (event) {
         event.preventDefault();
-        loadSpinPage([ispinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
+        loadSpinPage([ispinDiv, tspinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
     });
 
 });
