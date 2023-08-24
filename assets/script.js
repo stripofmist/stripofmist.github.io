@@ -38,6 +38,7 @@ const patterns = [
   {"name": "TSpin Triple", "filename": "tstspin", "type": "tspin"},
   {"name": "TSpin Mini Tuck", "filename": "tspinminituck", "type": "tspin"},
   {"name": "TSpin Mini Wall Kick", "filename": "tspinminiwallkick", "type": "tspin"},
+  {"name": "Iso-TSD", "filename": "isotsd", "type": "tspin"},
   {"name": "J/L Tuck", "filename": "jltuck", "type": "jlspin"},
   {"name": "Nosedive", "filename": "nosedive", "type": "jlspin"},
   {"name": "Hammer", "filename": "hammer", "type": "jlspin"},
