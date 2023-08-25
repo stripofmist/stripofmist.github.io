@@ -56,7 +56,9 @@ const patterns = [
   {"name": "Somersault", "filename": "somersault", "type": "jlspin"},
   {"name": "Washing Machine", "filename": "washingmachine", "type": "jlspin"},
   {"name": "S/Z Tuck", "filename": "sztuck", "type": "szspin"},
+  {"name": "S/Z Tuck 2", "filename": "sztuck2", "type": "szspin"},
   {"name": "S/Z Kick", "filename": "szkick", "type": "szspin"},
+  {"name": "S/Z Kick 2", "filename": "szkick2", "type": "szspin"},
   {"name": "StairMaster", "filename": "stairmaster", "type": "szspin"},
 ];
 
