@@ -59,6 +59,12 @@ const patterns = [
   {"name": "S/Z Tuck 2", "filename": "sztuck2", "type": "szspin"},
   {"name": "S/Z Kick", "filename": "szkick", "type": "szspin"},
   {"name": "S/Z Kick 2", "filename": "szkick2", "type": "szspin"},
+  {"name": "S/Z Kick 3", "filename": "szkick3", "type": "szspin"},
+  {"name": "Lodge", "filename": "lodge", "type": "szspin"},
+  {"name": "Lodge 2", "filename": "lodge2", "type": "szspin"},
+  {"name": "Lodge 3", "filename": "lodge3", "type": "szspin"},
+  {"name": "Fill In", "filename": "fillin", "type": "szspin"},
+  {"name": "Fill In 2", "filename": "fillin2", "type": "szspin"},
   {"name": "StairMaster", "filename": "stairmaster", "type": "szspin"},
 ];
 
