@@ -1,6 +1,7 @@
 var count = 0;
 var tsdIdx = -1;
 var wmIdx = -1;
+var curIdx = 0;
 
 const patterns = [
   {"name": "2 B2Bs", "filename": "2b2b", "type": "pattern"},
@@ -330,6 +331,12 @@ document.addEventListener("DOMContentLoaded", function() {
         loadSpinPage([ispinDiv, tspinDiv, jlspinDiv, szspinDiv], outerPatternDiv);
     });
 
+    var animateRadios = document.getElementsByName("imgtype");
+    for (var i = 0; i < animateRadios.length; i++) {
+        animateRadios[i].addEventListener("change", function() {
+            loadImageByIndex(curIdx);
+        });
+    }
 });
 
 window.addEventListener("keydown", function(event) {
@@ -392,6 +399,7 @@ function incrementCount() {
 
 function loadImageByIndex(i) {
     const centeredImage = document.getElementById("centeredImage");
+    curIdx = i;
     if (document.getElementById("still").checked) {
         centeredImage.src = "images/" + patterns[i]["filename"] + ".png";
     } else {
