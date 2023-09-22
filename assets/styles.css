@@ -206,3 +206,17 @@ table#leadMTable td:first-child::before {
     content: counter(mRowNumber);
     counter-increment: mRowNumber;
 }
+
+label.vertical-label {
+    display: block;
+}
+
+td.radio-cell {
+    text-align: center;
+    width: 12.5%;
+}
+
+p#counter {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
