@@ -93,14 +93,14 @@ function pressRandomButton() {
     if (randomIndex === -1){
         return;
     }
-    loadImageByIndex(randomIndex);
+    loadCenter(randomIndex, true);
 }
 
 function pressRestartButton() {
     const centeredText = document.getElementById("centeredText");
     centeredText.textContent = "TSpin Roulette";
     resetCount();
-    loadGifByIndex(tsdIdx);
+    loadCenter(tsdIndx, false);
     history.pushState(null, null, "/");
 }
 
@@ -158,7 +158,7 @@ function addPattern(pattern, index, checkboxContainer) {
     label.addEventListener("click", function(event) {
         event.preventDefault();
         resetCount();
-        loadImageByIndex(index);
+        loadCenter(index, true);
     });
     checkboxContainer.appendChild(label);
 
@@ -173,7 +173,7 @@ function addSpin(pattern, index, spinContainer) {
     label.addEventListener("click", function(event) {
         event.preventDefault();
         resetCount();
-        loadImageByIndex(index);
+        loadCenter(index, true);
     });
     spinContainer.appendChild(label);
 
@@ -184,7 +184,7 @@ function addSpin(pattern, index, spinContainer) {
 
 function loadSpinPage(spinDivs, outerDiv) {
     loadSpins(spinDivs, outerPatternDiv);
-    loadGifByIndex(wmIdx);
+    loadCenter(wmIdx, false);
     const centeredText = document.getElementById("centeredText");
     centeredText.textContent = "Spins";
     history.pushState(null, null, "spins");
@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const outerPatternDiv = document.getElementById("outerPatternDiv");
 
     if (refInd !== null) {
-        loadImageByIndex(refInd);
+        loadCenter(refInd, false);
         const rtyp = patterns[refInd]["type"];
         if (rtyp === "ispin" || rtyp === "tspin" || rtyp === "jlspin" || rtyp === "szspin") {
             // Add the spin divs to the actual page
@@ -390,17 +390,29 @@ function incrementCount() {
     counter.textContent = count;
 }
 
-function loadGifByIndex(i) {
+function loadImageByIndex(i) {
     const centeredImage = document.getElementById("centeredImage");
-    centeredImage.src = "images/" + patterns[i]["filename"] + ".gif";
+    if (document.getElementById("still").checked) {
+        centeredImage.src = "images/" + patterns[i]["filename"] + ".png";
+    } else {
+        centeredImage.src = "images/" + patterns[i]["filename"] + ".gif";
+    }
 }
 
-function loadImageByIndex(i) {
+
+function setCenterText(i, name) {
     const centeredText = document.getElementById("centeredText");
-    loadGifByIndex(i);
     centeredText.textContent = patterns[i]["name"];
+}
 
-    history.pushState(null, null, patterns[i]["filename"]);
-
+function loadCenter(i, updateURL, name=null) {
+    if (name === null) {
+        name = patterns[i]["name"];
+    }
+    setCenterText(i, name);
+    loadImageByIndex(i);
+    if (updateURL) {
+        history.pushState(null, null, patterns[i]["filename"]);
+    }
 }
 
